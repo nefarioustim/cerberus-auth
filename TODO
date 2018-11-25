@@ -8,9 +8,8 @@ Structure project:
   ✔ Add TODO file. @done (18-11-25 11:13)
   ✔ Fill out basic README. @done (18-11-25 11:13)
   ✔ Create Dockerfile. @done (18-11-25 12:27)
-  ☐ Create docker-compose.yml.
-  ✔ Add .gitignore and .dockerignore for cleanliness. @done (18-11-25 12:43)
-  ☐ Create skeletal Python project structure.
+  ✔ Add .gitignore and .dockerignore for cleanliness. @done (18-11-25 18:06)
+  ✔ Create skeletal Python project structure. @done (18-11-25 15:42)
     ✔ Add cerberus-auth package. @done (18-11-25 12:28)
     ✔ Add `__version__.py` file. @done (18-11-25 12:28)
     ✔ Add `setup.py` file. @done (18-11-25 13:18)
@@ -20,5 +19,6 @@ Structure project:
       ✔ Configure pytest to run tests. @done (18-11-25 15:36)
       ✔ Configure pytest-cov for coverage reporting. @done (18-11-25 15:36)
       ✔ Make the simple test pass. @done (18-11-25 15:36)
-    ☐ Add a Makefile to provide universal build control.
+  ✔ Create docker-compose.yml. @done (18-11-25 18:06)
+  ☐ Add a Makefile to provide universal build control.
 

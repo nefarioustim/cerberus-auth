@@ -1,9 +1,10 @@
-FROM nefarioustim/python:latest
+FROM nefarioustim/python:lxml-postgres
 
 MAINTAINER Tim Huegdon <tim@timhuegdon.com>
 
 ENV PIPENV_SHELL=/bin/bash
 COPY . /app
 WORKDIR /app
-RUN set -ex && pipenv install --dev --skip-lock         &&\
+RUN apk add --update --no-cache --virtual=psql-client postgresql-client &&\
+    set -ex && pipenv install --dev --skip-lock                         &&\
     rm -rf /root/.cache /var/cache /usr/share/terminfo

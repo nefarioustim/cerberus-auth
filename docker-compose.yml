@@ -1,0 +1,39 @@
+version: "3.7"
+
+services:
+  app:
+    build: .
+    container_name: app
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgres://dockerpguser@postgres/cerberusauth
+    networks:
+      - backend
+
+  postgres:
+    image: postgres:9
+    container_name: postgres
+    environment:
+      POSTGRES_USER: dockerpguser
+      POSTGRES_DB: cerberusauth
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dockerpguser cerberusauth"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
+    driver: local
+
+networks:
+  backend:
