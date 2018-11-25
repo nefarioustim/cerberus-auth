@@ -5,5 +5,8 @@ language: python
 services:
   - docker
 
+before_install:
+  - docker-compose build app
+
 script:
   - docker-compose run --rm --no-deps app pipenv run pytest
