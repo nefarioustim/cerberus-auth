@@ -7,7 +7,6 @@ services:
 
 before_install:
   - docker build -t cerberusauth .
-  - docker run cerberusauth /bin/sh -c "pipenv run pytest"
 
 script:
-  - pipenv run pytest
+  - docker run cerberusauth /bin/sh -c "pipenv run pytest"
