@@ -9,7 +9,7 @@ Structure project:
   ✔ Fill out basic README. @done (18-11-25 11:13)
   ✔ Create Dockerfile. @done (18-11-25 12:27)
   ☐ Create docker-compose.yml.
-  ☐ Add .gitignore and .dockerignore for cleanliness.
+  ✔ Add .gitignore and .dockerignore for cleanliness. @done (18-11-25 12:43)
   ☐ Create skeletal Python project structure.
     ✔ Add cerberus-auth package. @done (18-11-25 12:28)
     ✔ Add `__version__.py` file. @done (18-11-25 12:28)
