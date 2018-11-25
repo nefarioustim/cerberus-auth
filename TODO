@@ -7,11 +7,18 @@ Structure project:
   ✔ Setup the project for Commitizen. @done (18-11-25 11:13)
   ✔ Add TODO file. @done (18-11-25 11:13)
   ✔ Fill out basic README. @done (18-11-25 11:13)
-  ☐ Create Dockerfile.
+  ✔ Create Dockerfile. @done (18-11-25 12:27)
   ☐ Create docker-compose.yml.
+  ☐ Add .gitignore and .dockerignore for cleanliness.
   ☐ Create skeletal Python project structure.
-    ☐ Add cerberus-auth package.
-    ☐ Add `__version__.py` file.
+    ✔ Add cerberus-auth package. @done (18-11-25 12:28)
+    ✔ Add `__version__.py` file. @done (18-11-25 12:28)
     ☐ Add `setup.py` file.
     ☐ Setup Pipenv.
+    ☐ Ensure tests can be run.
+      ☐ Create a simple test for instantiation of the service.
+      ☐ Configure pytest to run tests.
+      ☐ Configure pytest-cov for coverage reporting.
+      ☐ Make the simple test pass.
+    ☐ Add a Makefile to provide universal build control.
 
