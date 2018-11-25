@@ -20,5 +20,6 @@ Structure project:
       ✔ Configure pytest-cov for coverage reporting. @done (18-11-25 15:36)
       ✔ Make the simple test pass. @done (18-11-25 15:36)
   ✔ Create docker-compose.yml. @done (18-11-25 18:06)
+  ✔ Initialise basic docs directory. @done (18-11-25 19:17)
   ☐ Add a Makefile to provide universal build control.
 
