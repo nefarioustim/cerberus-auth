@@ -29,12 +29,12 @@ with open('LICENSE') as f:
     license = f.read()
 
 REQUIRED = [
-    # 'alembic',
-    # 'psycopg2-binary',
-    # 'sqlalchemy',
-    # 'sqlalchemy-repr',
-    # 'sqlalchemy-utc',
-    # 'sqlalchemy-utils'
+    'alembic',
+    'psycopg2-binary',
+    'sqlalchemy',
+    'sqlalchemy-repr',
+    'sqlalchemy-utc',
+    'sqlalchemy-utils'
 ]
 
 setup(
