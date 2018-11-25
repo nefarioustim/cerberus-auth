@@ -4,7 +4,7 @@ Cerberus - Authentication and authorisation microservice.
 
 """
 
-__title__ = 'cerberus-auth'
+__title__ = 'cerberusauth'
 __description__ = 'Authentication and authorisation microservice.'
 __url__ = 'https://github.com/nefarioustim/cerberus-auth'
 __version__ = '0.0.1'

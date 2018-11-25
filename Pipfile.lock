@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "c68ca82446180dc399543b69e9d6dab7cd268c73dc22cbdd9ad96369a10e28f8"
+            "sha256": "d92720081e580181e3e02bbe6e347183a26b7e49466d4eeec7d8f6f6b8794437"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -15,7 +15,12 @@
             }
         ]
     },
-    "default": {},
+    "default": {
+        "cerberusauth": {
+            "editable": true,
+            "path": "."
+        }
+    },
     "develop": {
         "alabaster": {
             "hashes": [
