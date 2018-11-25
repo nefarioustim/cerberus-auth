@@ -13,12 +13,12 @@ Structure project:
   ☐ Create skeletal Python project structure.
     ✔ Add cerberus-auth package. @done (18-11-25 12:28)
     ✔ Add `__version__.py` file. @done (18-11-25 12:28)
-    ☐ Add `setup.py` file.
-    ☐ Setup Pipenv.
-    ☐ Ensure tests can be run.
-      ☐ Create a simple test for instantiation of the service.
-      ☐ Configure pytest to run tests.
-      ☐ Configure pytest-cov for coverage reporting.
-      ☐ Make the simple test pass.
+    ✔ Add `setup.py` file. @done (18-11-25 13:18)
+    ✔ Setup Pipenv. @done (18-11-25 13:18)
+    ✔ Ensure tests can be run. @done (18-11-25 15:36)
+      ✔ Create a simple test for instantiation of the service. @done (18-11-25 13:28)
+      ✔ Configure pytest to run tests. @done (18-11-25 15:36)
+      ✔ Configure pytest-cov for coverage reporting. @done (18-11-25 15:36)
+      ✔ Make the simple test pass. @done (18-11-25 15:36)
     ☐ Add a Makefile to provide universal build control.
 
