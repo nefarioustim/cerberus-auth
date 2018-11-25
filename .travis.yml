@@ -1,0 +1,13 @@
+sudo: required
+
+language: python
+
+services:
+  - docker
+
+before_install:
+  - docker build -t cerberusauth .
+  - docker run cerberusauth /bin/sh -c "pipenv run pytest"
+
+script:
+  - pipenv run pytest
