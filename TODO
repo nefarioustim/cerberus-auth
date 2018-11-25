@@ -1,0 +1,17 @@
+Cerberus Authentication Microservice ToDo
+=========================================
+
+This is a temporary TODO list for the project. Development tasks will be transitioned to GitHub Issues over the next week.
+
+Structure project:
+  ☐ Setup the project for Commitizen.
+  ☐ Add TODO file.
+  ☐ Fill out basic README.
+  ☐ Create Dockerfile.
+  ☐ Create docker-compose.yml.
+  ☐ Create skeletal Python project structure.
+    ☐ Add cerberus-auth package.
+    ☐ Add `__version__.py` file.
+    ☐ Add `setup.py` file.
+    ☐ Setup Pipenv.
+
