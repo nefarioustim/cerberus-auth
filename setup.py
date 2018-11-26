@@ -29,6 +29,7 @@ with open('LICENSE') as f:
 REQUIRED = [
     'alembic',
     'psycopg2-binary',
+    'python-slugify',
     'sqlalchemy',
     'sqlalchemy-repr',
     'sqlalchemy-utc',
