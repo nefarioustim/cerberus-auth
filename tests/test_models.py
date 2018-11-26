@@ -57,3 +57,20 @@ def test_permission_model_instantiates():
 
     assert permission
     assert isinstance(permission, models.Permission)
+
+
+@pytest.mark.parametrize("test_slug, expected_slug", [
+    ('slug', 'slug'),
+    ('random-slug', 'random-slug'),
+    ('randomer/slug', 'randomer-slug'),
+    ('Something Else', 'something-else'),
+    ('___This is a test___', 'this-is-a-test'),
+    ('影師嗎', 'ying-shi-ma'),
+    ('C\'est déjà l\'été.', 'c-est-deja-l-ete')
+])
+def test_permission_model_slugifys_slug(test_slug, expected_slug):
+    """."""
+    permission = models.Permission(slug=test_slug)
+
+    assert permission
+    assert permission.slug == expected_slug

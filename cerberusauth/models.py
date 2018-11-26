@@ -2,6 +2,8 @@
 Models.
 """
 
+from slugify import slugify
+
 
 class User(object):
     """User model."""
@@ -40,7 +42,7 @@ class Permission(object):
 
     def __init__(self, slug, *args, **kwargs):
         """Constructor."""
-        self.slug = slug
+        self.slug = slugify(slug)
         self.description = kwargs.pop('description', None)
         self.enabled = kwargs.pop('enabled', True)
 
