@@ -1,7 +1,5 @@
 """
-
 Cerberus - Authentication and authorisation microservice.
-
 """
 
 __title__ = 'cerberusauth'

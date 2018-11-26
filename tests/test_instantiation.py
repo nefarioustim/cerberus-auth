@@ -1,7 +1,5 @@
 """
-
 Tests for core objects.
-
 """
 
 import cerberusauth
