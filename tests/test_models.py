@@ -2,6 +2,7 @@
 Tests for models.
 """
 
+from datetime import datetime
 import pytest
 
 from cerberusauth import models
@@ -25,6 +26,13 @@ def test_user_model_instantiates():
 
     assert user
     assert isinstance(user, models.User)
+    assert user.created is not None
+    assert isinstance(user.created, datetime)
+    assert user.modified == user.created
+
+    user.id = 1
+
+    assert user.modified > user.created
 
 
 def test_role_model_requires_name():
