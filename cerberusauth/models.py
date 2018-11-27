@@ -20,9 +20,8 @@ class BaseModel(object):
 
     def __setattr__(self, name, value):
         """Global setter."""
-        if not name == 'modified':
-            if self._initialised:
-                self.modified = datetime.utcnow()
+        if not name == 'modified' and self._initialised:
+            self.modified = datetime.utcnow()
 
         super(BaseModel, self).__setattr__(name, value)
 
