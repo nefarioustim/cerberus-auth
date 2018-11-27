@@ -49,6 +49,13 @@ def test_role_model_instantiates():
 
     assert role
     assert isinstance(role, models.Role)
+    assert role.created is not None
+    assert isinstance(role.created, datetime)
+    assert role.modified == role.created
+
+    role.id = 1
+
+    assert role.modified > role.created
 
 
 def test_permission_model_requires_slug():
@@ -65,6 +72,13 @@ def test_permission_model_instantiates():
 
     assert permission
     assert isinstance(permission, models.Permission)
+    assert permission.created is not None
+    assert isinstance(permission.created, datetime)
+    assert permission.modified == permission.created
+
+    permission.id = 1
+
+    assert permission.modified > permission.created
 
 
 @pytest.mark.parametrize("test_slug, expected_slug", [
