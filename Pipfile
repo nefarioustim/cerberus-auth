@@ -9,7 +9,7 @@ pytest-cov = "*"
 sphinx = "*"
 
 [packages]
-cerberusauth = {editable = true, path = "."}
+cerberusauth = {editable = true,path = "."}
 
 [requires]
 python_version = "3.6"

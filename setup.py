@@ -1,7 +1,5 @@
 """
-
 Cerberus - Authentication and authorisation microservice.
-
 """
 
 import os.path
@@ -30,7 +28,9 @@ with open('LICENSE') as f:
 
 REQUIRED = [
     'alembic',
+    'bcrypt',
     'psycopg2-binary',
+    'python-slugify',
     'sqlalchemy',
     'sqlalchemy-repr',
     'sqlalchemy-utc',
