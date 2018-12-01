@@ -3,7 +3,6 @@ Tests for models.
 """
 
 from datetime import datetime
-import bcrypt
 import pytest
 
 from cerberusauth import models
@@ -17,8 +16,6 @@ def test_user_model_requires_email_password_fullname():
         models.User()
 
     assert "email" in str(exc.value)
-    assert "password" in str(exc.value)
-    assert "fullname" in str(exc.value)
 
 
 def test_user_model_instantiates():
@@ -28,7 +25,6 @@ def test_user_model_instantiates():
 
     assert user
     assert isinstance(user, models.User)
-    assert user.password != user_dict['password']
     assert user.created is not None
     assert isinstance(user.created, datetime)
     assert user.modified == user.created
@@ -38,12 +34,28 @@ def test_user_model_instantiates():
     assert user.modified > user.created
 
 
+def test_user_model_new_password():
+    """."""
+    user_dict = get_user()
+    user = models.User(**user_dict)
+
+    assert user
+
+    user.new_password(user_dict["password"])
+
+    assert user.password != user_dict["password"]
+    assert user.password.decode()
+
+
 def test_user_model_authenticate():
     """."""
     user_dict = get_user()
     user = models.User(**user_dict)
 
     assert user
+
+    user.new_password(user_dict["password"])
+
     assert user.authenticate(user_dict["password"])
 
 
@@ -94,13 +106,13 @@ def test_permission_model_instantiates():
 
 
 @pytest.mark.parametrize("test_slug, expected_slug", [
-    ('slug', 'slug'),
-    ('random-slug', 'random-slug'),
-    ('randomer/slug', 'randomer-slug'),
-    ('Something Else', 'something-else'),
-    ('___This is a test___', 'this-is-a-test'),
-    ('影師嗎', 'ying-shi-ma'),
-    ('C\'est déjà l\'été.', 'c-est-deja-l-ete')
+    ("slug", "slug"),
+    ("random-slug", "random-slug"),
+    ("randomer/slug", "randomer-slug"),
+    ("Something Else", "something-else"),
+    ("___This is a test___", "this-is-a-test"),
+    ("影師嗎", "ying-shi-ma"),
+    ("C\'est déjà l\'été.", "c-est-deja-l-ete")
 ])
 def test_permission_model_slugifys_slug(test_slug, expected_slug):
     """."""
