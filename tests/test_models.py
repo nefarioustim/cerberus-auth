@@ -3,6 +3,7 @@ Tests for models.
 """
 
 from datetime import datetime
+import bcrypt
 import pytest
 
 from cerberusauth import models
@@ -22,10 +23,12 @@ def test_user_model_requires_email_password_fullname():
 
 def test_user_model_instantiates():
     """."""
-    user = models.User(**get_user())
+    user_dict = get_user()
+    user = models.User(**user_dict)
 
     assert user
     assert isinstance(user, models.User)
+    assert user.password != user_dict['password']
     assert user.created is not None
     assert isinstance(user.created, datetime)
     assert user.modified == user.created
@@ -33,6 +36,15 @@ def test_user_model_instantiates():
     user.id = 1
 
     assert user.modified > user.created
+
+
+def test_user_model_authenticate():
+    """."""
+    user_dict = get_user()
+    user = models.User(**user_dict)
+
+    assert user
+    assert user.authenticate(user_dict["password"])
 
 
 def test_role_model_requires_name():

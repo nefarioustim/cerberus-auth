@@ -2,7 +2,10 @@
 Models.
 """
 
+import base64
 from datetime import datetime
+import hashlib
+import bcrypt
 from slugify import slugify
 
 
@@ -32,11 +35,29 @@ class User(BaseModel):
     def __init__(self, email, password, fullname, *args, **kwargs):
         """Constructor."""
         self.email = email
-        self.password = password
+        self.password = bcrypt.hashpw(
+            self._encode_password(password),
+            bcrypt.gensalt()
+        )
         self.fullname = fullname
 
         super(User, self).__init__(
             *args, **kwargs
+        )
+
+    @staticmethod
+    def _encode_password(password):
+        return base64.b64encode(
+            hashlib.sha256(
+                password.encode('utf-8')
+            ).digest()
+        )
+
+    def authenticate(self, password):
+        """Authenticate password matches self.password."""
+        return bcrypt.checkpw(
+            self._encode_password(password),
+            self.password
         )
 
 
