@@ -4,8 +4,8 @@ language: python
 
 services: docker
 
-before_install: docker build -t cerberusauth .
+before_install: docker pull nefarioustim/cerberus-auth
 
 install: true
 
-script: docker run cerberusauth pipenv run pytest
+script: docker run nefarioustim/cerberus-auth pipenv run pytest
