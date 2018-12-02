@@ -2,21 +2,8 @@
 Base code for models.
 """
 
-from datetime import datetime
 import logging
-
-
-class BaseModel(object):
-    """Base model."""
-    _initialised = False
-    id = None
-
-    def __init__(self, *args, **kwargs):
-        """Constructor."""
-        self.created = kwargs.pop("created", datetime.utcnow())
-        self.modified = kwargs.pop("modified", self.created)
-
-        self._initialised = True
+from models import BaseModel
 
 
 class BaseRepository(object):

@@ -2,12 +2,21 @@
 Models.
 """
 
+from datetime import datetime
 import base64
 import hashlib
 import bcrypt
 from slugify import slugify
 
-from ..base import BaseModel
+
+class BaseModel(object):
+    """Base model."""
+    id = None
+
+    def __init__(self, *args, **kwargs):
+        """Constructor."""
+        self.created = kwargs.pop("created", datetime.utcnow())
+        self.modified = kwargs.pop("modified", self.created)
 
 
 class User(BaseModel):
@@ -19,9 +28,7 @@ class User(BaseModel):
         self.password = password
         self.fullname = fullname
 
-        super(User, self).__init__(
-            *args, **kwargs
-        )
+        super().__init__(*args, **kwargs)
 
     @staticmethod
     def _encode_password(password):
@@ -55,9 +62,7 @@ class Role(BaseModel):
         self.description = kwargs.pop("description", None)
         self.enabled = kwargs.pop("enabled", True)
 
-        super(Role, self).__init__(
-            *args, **kwargs
-        )
+        super().__init__(*args, **kwargs)
 
 
 class Permission(BaseModel):
@@ -69,6 +74,4 @@ class Permission(BaseModel):
         self.description = kwargs.pop("description", None)
         self.enabled = kwargs.pop("enabled", True)
 
-        super(Permission, self).__init__(
-            *args, **kwargs
-        )
+        super().__init__(*args, **kwargs)
