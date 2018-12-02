@@ -8,4 +8,4 @@ before_install: docker pull nefarioustim/cerberus-auth
 
 install: true
 
-script: docker run nefarioustim/cerberus-auth pipenv run pytest
+script: docker run -v ${PWD}:/app nefarioustim/cerberus-auth pipenv run pytest
