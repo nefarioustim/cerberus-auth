@@ -3,30 +3,11 @@ Models.
 """
 
 import base64
-from datetime import datetime
 import hashlib
 import bcrypt
 from slugify import slugify
 
-
-class BaseModel(object):
-    """Base model."""
-    _initialised = False
-    id = None
-
-    def __init__(self, *args, **kwargs):
-        """Constructor."""
-        self.created = kwargs.pop("created", datetime.utcnow())
-        self.modified = kwargs.pop("created", self.created)
-
-        self._initialised = True
-
-    def __setattr__(self, name, value):
-        """Global setter."""
-        if not name == "modified" and self._initialised:
-            self.modified = datetime.utcnow()
-
-        super(BaseModel, self).__setattr__(name, value)
+from .base import BaseModel
 
 
 class User(BaseModel):
