@@ -31,6 +31,7 @@ REQUIRED = [
     'bcrypt',
     'psycopg2-binary',
     'python-slugify',
+    'pyyaml',
     'sqlalchemy',
     'sqlalchemy-repr',
     'sqlalchemy-utc',
