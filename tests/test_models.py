@@ -29,10 +29,6 @@ def test_user_model_instantiates():
     assert isinstance(user.created, datetime)
     assert user.modified == user.created
 
-    user.id = 1
-
-    assert user.modified > user.created
-
 
 def test_user_model_new_password():
     """."""
@@ -77,10 +73,6 @@ def test_role_model_instantiates():
     assert isinstance(role.created, datetime)
     assert role.modified == role.created
 
-    role.id = 1
-
-    assert role.modified > role.created
-
 
 def test_permission_model_requires_slug():
     """."""
@@ -99,10 +91,6 @@ def test_permission_model_instantiates():
     assert permission.created is not None
     assert isinstance(permission.created, datetime)
     assert permission.modified == permission.created
-
-    permission.id = 1
-
-    assert permission.modified > permission.created
 
 
 @pytest.mark.parametrize("test_slug, expected_slug", [
