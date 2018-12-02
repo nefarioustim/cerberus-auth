@@ -7,7 +7,7 @@ import hashlib
 import bcrypt
 from slugify import slugify
 
-from .base import BaseModel
+from ..base import BaseModel
 
 
 class User(BaseModel):
