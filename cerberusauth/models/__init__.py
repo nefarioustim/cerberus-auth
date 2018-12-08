@@ -17,6 +17,8 @@ class BaseModel(object):
         """Constructor."""
         self.created = kwargs.pop("created", datetime.utcnow())
         self.modified = kwargs.pop("modified", self.created)
+        self.is_enabled = kwargs.pop("is_enabled", True)
+        self.is_deleted = kwargs.pop("is_deleted", False)
 
 
 class User(BaseModel):
@@ -60,7 +62,6 @@ class Role(BaseModel):
         """Constructor."""
         self.name = name
         self.description = kwargs.pop("description", None)
-        self.enabled = kwargs.pop("enabled", True)
 
         super().__init__(*args, **kwargs)
 
@@ -72,6 +73,5 @@ class Permission(BaseModel):
         """Constructor."""
         self.slug = slugify(slug)
         self.description = kwargs.pop("description", None)
-        self.enabled = kwargs.pop("enabled", True)
 
         super().__init__(*args, **kwargs)

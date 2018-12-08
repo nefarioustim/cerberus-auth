@@ -15,6 +15,8 @@ class BaseSQLModel(RepresentableBase):
     id = Column('id', Integer, primary_key=True)
     created = Column(UtcDateTime, default=utcnow())
     modified = Column(UtcDateTime, onupdate=utcnow())
+    is_enabled = Column(Boolean(), default=True)
+    is_deleted = Column(Boolean(), default=False)
 
 BaseSQLModel = declarative_base(cls=BaseSQLModel)
 
@@ -36,7 +38,6 @@ class Role(BaseSQLModel, BaseRole):
 
     name = Column(String(255), nullable=False)
     description = Column(String(255))
-    enabled = Column(Boolean())
 
     __init__ = BaseRole.__init__
 
@@ -47,6 +48,5 @@ class Permission(BaseSQLModel, BasePermission):
 
     slug = Column(String(255), nullable=False)
     description = Column(String(255))
-    enabled = Column(Boolean())
 
     __init__ = BasePermission.__init__
