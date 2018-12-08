@@ -14,6 +14,19 @@ def assert_object_matches_dict(obj, dic):
         assert getattr(obj, key) == value
 
 
+def assert_instantiation(model_cls, model_dict):
+    """Assert the instantiation of a model class."""
+    model_obj = model_cls(**model_dict)
+
+    assert model_obj
+    assert isinstance(model_obj, model_cls)
+    assert model_obj.is_enabled is True
+    assert model_obj.is_deleted is False
+    assert model_obj.created is not None
+    assert model_obj.modified == model_obj.created
+    assert_object_matches_dict(model_obj, model_dict)
+
+
 def test_user_model_requires_email_password_fullname(models):
     """."""
     with pytest.raises(TypeError) as exc:
@@ -24,14 +37,7 @@ def test_user_model_requires_email_password_fullname(models):
 
 def test_user_model_instantiates(models):
     """."""
-    user_dict = get_user()
-    user = models.User(**user_dict)
-
-    assert user
-    assert isinstance(user, models.User)
-    assert user.created is not None
-    assert user.modified == user.created
-    assert_object_matches_dict(user, user_dict)
+    assert_instantiation(models.User, get_user())
 
 
 def test_user_model_new_password(models):
@@ -69,13 +75,7 @@ def test_role_model_requires_name(models):
 
 def test_role_model_instantiates(models):
     """."""
-    role = models.Role(**get_role())
-
-    assert role
-    assert isinstance(role, models.Role)
-    assert role.created is not None
-    assert isinstance(role.created, datetime)
-    assert role.modified == role.created
+    assert_instantiation(models.Role, get_role())
 
 
 def test_permission_model_requires_slug(models):
@@ -88,13 +88,7 @@ def test_permission_model_requires_slug(models):
 
 def test_permission_model_instantiates(models):
     """."""
-    permission = models.Permission(**get_permission())
-
-    assert permission
-    assert isinstance(permission, models.Permission)
-    assert permission.created is not None
-    assert isinstance(permission.created, datetime)
-    assert permission.modified == permission.created
+    assert_instantiation(models.Permission, get_permission())
 
 
 @pytest.mark.parametrize("test_slug, expected_slug", [

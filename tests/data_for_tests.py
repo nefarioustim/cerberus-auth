@@ -9,13 +9,11 @@ USER_DICT = {
 }
 
 ROLE_DICT = {
-    'name': 'Super Admin',
-    'enabled': True
+    'name': 'Super Admin'
 }
 
 PERMISSION_DICT = {
-    'slug': 'can-test-permissions',
-    'enabled': True
+    'slug': 'can-test-permissions'
 }
 
 
