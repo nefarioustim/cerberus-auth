@@ -17,6 +17,7 @@ class BaseModel(object):
         """Constructor."""
         self.created = kwargs.pop("created", datetime.utcnow())
         self.modified = kwargs.pop("modified", self.created)
+        self.is_deleted = kwargs.pop("is_deleted", False)
 
 
 class User(BaseModel):
@@ -28,7 +29,7 @@ class User(BaseModel):
         self.password = password
         self.fullname = fullname
 
-        super().__init__(*args, **kwargs)
+        super(BaseModel, self).__init__(*args, **kwargs)
 
     @staticmethod
     def _encode_password(password):
@@ -60,9 +61,9 @@ class Role(BaseModel):
         """Constructor."""
         self.name = name
         self.description = kwargs.pop("description", None)
-        self.enabled = kwargs.pop("enabled", True)
+        self.is_enabled = kwargs.pop("is_enabled", True)
 
-        super().__init__(*args, **kwargs)
+        super(BaseModel, self).__init__(*args, **kwargs)
 
 
 class Permission(BaseModel):
@@ -72,6 +73,6 @@ class Permission(BaseModel):
         """Constructor."""
         self.slug = slugify(slug)
         self.description = kwargs.pop("description", None)
-        self.enabled = kwargs.pop("enabled", True)
+        self.is_enabled = kwargs.pop("is_enabled", True)
 
-        super().__init__(*args, **kwargs)
+        super(BaseModel, self).__init__(*args, **kwargs)
