@@ -3,7 +3,7 @@ Tests for SQLRepositoryAdapter.
 """
 
 from unittest.mock import Mock
-from cerberusauth.repository import sqladapter
+from cerberusauth.repository.adapter import sql as sqladapter
 
 
 class MockSQLModel(Mock):

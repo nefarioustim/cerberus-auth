@@ -1,11 +1,12 @@
 """
-Repository adapter for SQL storage.
+RepositoryAdapter for SQL storage.
 """
 
 from sqlalchemy import func
+from . import RepositoryAdapterInterface
 
 
-class SQLRepositoryAdapter(object):
+class SQLRepositoryAdapter(RepositoryAdapterInterface):
     """Repository adapter for SQL storage."""
 
     def __init__(self, session):
