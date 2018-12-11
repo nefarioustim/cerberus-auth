@@ -2,29 +2,35 @@
 Models.
 """
 
+from .. import config
 from . import base
 from . import sqlalchemy
 
 
-def get_user_class(storage_strategy=None):
-    return (
-        sqlalchemy.User if storage_strategy == 'sql'
-        else base.User
+STRATEGY_MAP = {
+    'sql': 'sqlalchemy',
+    'base': 'base'
+}
+
+
+def _get_storage_strategy(storage_strategy=None):
+    storage_strategy = storage_strategy or config.STORAGE_STRATEGY
+    return globals().get(
+        STRATEGY_MAP.get(storage_strategy, 'base'),
+        'base'
     )
+
+
+def get_user_class(storage_strategy=None):
+    return _get_storage_strategy(storage_strategy).User
 
 
 def get_role_class(storage_strategy=None):
-    return (
-        sqlalchemy.Role if storage_strategy == 'sql'
-        else base.Role
-    )
+    return _get_storage_strategy(storage_strategy).Role
 
 
 def get_permission_class(storage_strategy=None):
-    return (
-        sqlalchemy.Permission if storage_strategy == 'sql'
-        else base.Permission
-    )
+    return _get_storage_strategy(storage_strategy).Permission
 
 
 def user_factory(storage_strategy=None, *args, **kwargs):
