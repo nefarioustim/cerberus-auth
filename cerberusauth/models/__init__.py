@@ -2,20 +2,21 @@
 Models.
 """
 
-import importlib
 from .. import config
+from .. import strategy
 
 
 STRATEGY_MAP = {
-    'sql': 'sqlalchemy',
-    'base': 'base'
+    'sql': '.sqlalchemy',
+    'base': '.base'
 }
 
 
 def _import_storage_strategy(storage_strategy=None):
-    storage_strategy = storage_strategy or config.STORAGE_STRATEGY
-    return importlib.import_module(
-        '.{}'.format(STRATEGY_MAP.get(storage_strategy, 'base')),
+    return strategy.import_strategy(
+        storage_strategy or config.STORAGE_STRATEGY,
+        STRATEGY_MAP,
+        '.base',
         'cerberusauth.models'
     )
 
