@@ -6,16 +6,9 @@ from .. import config
 from .. import strategy
 
 
-STRATEGY_MAP = {
-    'sql': '.sqlalchemy',
-    'base': '.base'
-}
-
-
 def _import_storage_strategy(storage_strategy=None):
     return strategy.import_strategy(
         storage_strategy or config.STORAGE_STRATEGY,
-        STRATEGY_MAP,
         '.base',
         'cerberusauth.models'
     )
