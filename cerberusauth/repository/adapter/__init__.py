@@ -2,6 +2,27 @@
 Adapters for Repositories.
 """
 
+from ... import config
+from ... import strategy
+
+
+def _import_storage_strategy(storage_strategy=None):
+    return strategy.import_strategy(
+        storage_strategy or config.STORAGE_STRATEGY,
+        '.sql',
+        'cerberusauth.repository.adapter'
+    )
+
+
+def get_repository_adapter_class(storage_strategy=None):
+    return _import_storage_strategy(
+        storage_strategy
+    ).get_adapter_class()
+
+
+def repository_adapter_factory(session, storage_strategy=None):
+    return get_repository_adapter_class(storage_strategy)(session)
+
 
 class RepositoryAdapterInterface(object):
     """Interface for RepositoryAdapter."""
