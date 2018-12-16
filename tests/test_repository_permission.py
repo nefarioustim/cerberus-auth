@@ -2,8 +2,6 @@
 
 from unittest import mock
 
-import pytest
-
 from cerberusauth.repository import permission
 from cerberusauth.repository.adapter import sql
 from cerberusauth.models import sql as sql_models
@@ -53,7 +51,7 @@ def test_count_calls_adapter():
 def test_get(caplog):
     """."""
     repo = permission.get_repository()
-    repo.adapter = mock.Mock()
+    repo.adapter.get = mock.Mock()
 
     with caplog.at_level("INFO"):
         repo.get(1)
@@ -68,7 +66,7 @@ def test_get_batch(caplog):
     """."""
     test_ids = [1, 2, 3, 4]
     repo = permission.get_repository()
-    repo.adapter = mock.Mock()
+    repo.adapter.get = mock.Mock()
 
     with caplog.at_level("INFO"):
         repo.get(*test_ids)
@@ -78,3 +76,48 @@ def test_get_batch(caplog):
         assert 'Got {} with ID {}'.format(
             repo.agg_root_class.__name__, test_id
         ) in caplog.text
+
+
+def test_save(caplog):
+    """."""
+    repo = permission.get_repository()
+    return_perm = repo.get_aggregate_root_object(
+        data_for_tests.get_permission())
+    return_perm.id = 1
+    repo.adapter.save = mock.MagicMock(return_value=return_perm)
+    repo.adapter.save.__name__ = 'save'
+
+    with caplog.at_level("INFO"):
+        repo.save(data_for_tests.get_permission())
+
+    repo.adapter.save.assert_called_once()
+    assert '{} {} with ID 1'.format(
+        repo.adapter.save.__name__,
+        repo.agg_root_class.__name__
+    ) in caplog.text
+
+
+def test_save_batch(caplog):
+    """."""
+    assert True is False
+
+
+def test_delete(caplog):
+    """."""
+    repo = permission.get_repository()
+    repo.adapter.delete = mock.MagicMock(return_value=None)
+    repo.adapter.delete.__name__ = 'delete'
+
+    with caplog.at_level("INFO"):
+        repo.delete(data_for_tests.get_permission(id=1))
+
+    repo.adapter.delete.assert_called_once()
+    assert '{} {} with ID 1'.format(
+        repo.adapter.delete.__name__,
+        repo.agg_root_class.__name__
+    ) in caplog.text
+
+
+def test_delete_batch(caplog):
+    """."""
+    assert True is False

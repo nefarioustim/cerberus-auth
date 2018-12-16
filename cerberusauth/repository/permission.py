@@ -50,17 +50,35 @@ class PermissionRepository(object):
             self._get(agg_root_id) for agg_root_id in aggregate_root_ids
         ]
 
+    def _bulk_process(self, agg_root, func):
+        agg_root = self.get_aggregate_root_object(agg_root)
+
+        try:
+            return_value = func(agg_root)
+
+            print(agg_root)
+            print('return', return_value)
+
+            self.logger.info('{} {} with ID {}'.format(
+                func.__name__,
+                self.agg_root_class.__name__,
+                return_value.id if return_value else agg_root.id
+            ))
+        except Exception as e:
+            return_value = e
+
+        return return_value
+
     def save(self, *aggregate_roots):
         """Save an aggregate root or roots."""
         return [
-            self.adapter.save(
-                self.get_aggregate_root_object(agg_root)
-            ) for agg_root in aggregate_roots
+            self._bulk_process(agg_root, self.adapter.save)
+            for agg_root in aggregate_roots
         ]
 
     def delete(self, *aggregate_roots):
         """Delete an aggregate root or roots."""
-        for agg_root in aggregate_roots:
-            self.adapter.delete(
-                self.get_aggregate_root_object(agg_root)
-            )
+        return [
+            self._bulk_process(agg_root, self.adapter.delete)
+            for agg_root in aggregate_roots
+        ]

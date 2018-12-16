@@ -54,10 +54,10 @@ def permission_factory(storage_strategy=None, *args, **kwargs):
 
 class BaseModel(object):
     """Base model."""
-    id = None
 
     def __init__(self, *args, **kwargs):
         """Constructor."""
+        self.id = kwargs.pop("id", None)
         self.created = kwargs.pop("created", datetime.utcnow())
         self.modified = kwargs.pop("modified", self.created)
         self.is_enabled = kwargs.pop("is_enabled", True)
