@@ -97,9 +97,20 @@ def test_save(caplog):
     ) in caplog.text
 
 
-def test_save_batch(caplog):
+def test_save_batch():
     """."""
-    assert True is False
+    count = 5
+    repo = permission.get_repository()
+    repo.adapter.save = mock. Mock()
+    list_of_dicts = [
+        data_for_tests.get_permission(id='test') for i in range(count)
+    ]
+
+    saved = repo.save(*list_of_dicts)
+
+    assert saved
+    assert isinstance(saved, list)
+    assert len(saved) == count
 
 
 def test_delete(caplog):
@@ -120,4 +131,22 @@ def test_delete(caplog):
 
 def test_delete_batch(caplog):
     """."""
-    assert True is False
+    count = 5
+    repo = permission.get_repository()
+    repo.adapter.delete = mock.MagicMock(return_value=None)
+    repo.adapter.delete.__name__ = 'delete'
+    list_of_dicts = [
+        data_for_tests.get_permission(id='test') for i in range(count)
+    ]
+
+    with caplog.at_level("INFO"):
+        deleted = repo.delete(*list_of_dicts)
+
+    assert deleted
+    assert isinstance(deleted, list)
+    assert len(deleted) == count
+    assert len(caplog.records) == count
+    assert '{} {} with ID test'.format(
+        repo.adapter.delete.__name__,
+        repo.agg_root_class.__name__
+    ) in caplog.text

@@ -56,9 +56,6 @@ class PermissionRepository(object):
         try:
             return_value = func(agg_root)
 
-            print(agg_root)
-            print('return', return_value)
-
             self.logger.info('{} {} with ID {}'.format(
                 func.__name__,
                 self.agg_root_class.__name__,
