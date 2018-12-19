@@ -2,8 +2,10 @@
 Datastore schema for SQL.
 """
 
+from . import BaseSchema
 
-class Schema(object):
+
+class Schema(BaseSchema):
     """Controls creation of datastore schema."""
 
     def import_models(self):
