@@ -11,8 +11,6 @@ services:
       - .:/app
     ports:
       - "8000:8000"
-    environment:
-      DATABASE_URL: postgres://dockerpguser@postgres/cerberusauth
     networks:
       - backend
 
@@ -20,14 +18,15 @@ services:
     image: postgres:9
     container_name: postgres
     environment:
-      POSTGRES_USER: dockerpguser
+      POSTGRES_USER: ${STORAGE_USER}
+      POSTGRES_PASSWORD: ${STORAGE_PASSWORD}
       POSTGRES_DB: cerberusauth
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
       - backend
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U dockerpguser cerberusauth"]
+      test: ["CMD-SHELL", "pg_isready -U ${STORAGE_USER} cerberusauth"]
       interval: 10s
       timeout: 5s
       retries: 5
