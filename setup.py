@@ -49,5 +49,7 @@ setup(
     long_description=LONG_DESC,
     install_requires=REQUIRED,
     packages=find_packages(exclude=('tests', 'docs')),
-    scripts=[]
+    scripts=[
+        'bin/wait-for-it.sh'
+    ]
 )
