@@ -2,14 +2,10 @@
 Datastore schema for SQL.
 """
 
-from . import BaseSchema
 
+def create_schema():
+    """Create the schema."""
+    from ..models import sql as sqlmodels
+    from ..storage import sql as sqlstorage
 
-class Schema(BaseSchema):
-    """Controls creation of datastore schema."""
-
-    def import_models(self):
-        """Import models to create as schema."""
-
-    def create_schema(self):
-        """Create the schema."""
+    sqlmodels.BaseSQLModel.metadata.create_all(sqlstorage.engine)
