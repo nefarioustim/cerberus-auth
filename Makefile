@@ -13,7 +13,6 @@ test: clean-pyc
 
 e2etest: clean-pyc
 	-docker-compose run --rm app pipenv run wait-for-it.sh postgres:5432 -s -t 10 -- pytest e2etests/
-	docker-compose down -v
 
 docs: clean-pyc
 	docker-compose run --rm --no-deps app pipenv run make -C docs html
