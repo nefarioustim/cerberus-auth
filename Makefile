@@ -9,7 +9,7 @@ lock: clean-pyc
 	docker-compose run --rm --no-deps app pipenv lock
 
 test: clean-pyc
-	docker-compose run --rm --no-deps app pipenv run pytest
+	-docker-compose run --rm --no-deps app pipenv run pytest
 
 docs: clean-pyc
 	docker-compose run --rm --no-deps app pipenv run make -C docs html
