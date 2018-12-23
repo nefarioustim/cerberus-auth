@@ -17,16 +17,16 @@ PERMISSION_DICT = {
 }
 
 
-def get_user():
+def get_user(id=None):
     """Get User dict for testing."""
-    return USER_DICT.copy()
+    return dict(USER_DICT, id=id)
 
 
-def get_role():
+def get_role(id=None):
     """Get User dict for testing."""
-    return ROLE_DICT.copy()
+    return dict(ROLE_DICT, id=id)
 
 
-def get_permission():
+def get_permission(id=None):
     """Get User dict for testing."""
-    return PERMISSION_DICT.copy()
+    return dict(PERMISSION_DICT, id=id)

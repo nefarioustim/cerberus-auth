@@ -6,6 +6,10 @@ from sqlalchemy import func
 from . import RepositoryAdapterInterface
 
 
+def get_adapter_class():
+    return SQLRepositoryAdapter
+
+
 class SQLRepositoryAdapter(RepositoryAdapterInterface):
     """Repository adapter for SQL storage."""
 

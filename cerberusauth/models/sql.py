@@ -7,7 +7,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy_repr import RepresentableBase
 from sqlalchemy_utc import UtcDateTime, utcnow
 
-from . import base
+from . import BaseUser, BaseRole, BasePermission
 
 
 class BaseSQLModel(RepresentableBase):
@@ -21,7 +21,7 @@ class BaseSQLModel(RepresentableBase):
 BaseSQLModel = declarative_base(cls=BaseSQLModel)
 
 
-class User(BaseSQLModel, base.User):
+class User(BaseSQLModel, BaseUser):
     """User model for SQLAlchemy."""
     __tablename__ = 'user'
 
@@ -29,24 +29,24 @@ class User(BaseSQLModel, base.User):
     password = Column(String(255), nullable=False)
     fullname = Column(String(255))
 
-    __init__ = base.User.__init__
+    __init__ = BaseUser.__init__
 
 
-class Role(BaseSQLModel, base.Role):
+class Role(BaseSQLModel, BaseRole):
     """Role model for SQLAlchemy."""
     __tablename__ = 'role'
 
     name = Column(String(255), nullable=False)
     description = Column(String(255))
 
-    __init__ = base.Role.__init__
+    __init__ = BaseRole.__init__
 
 
-class Permission(BaseSQLModel, base.Permission):
+class Permission(BaseSQLModel, BasePermission):
     """Permission model for SQLAlchemy."""
     __tablename__ = 'permission'
 
     slug = Column(String(255), nullable=False)
     description = Column(String(255))
 
-    __init__ = base.Permission.__init__
+    __init__ = BasePermission.__init__
