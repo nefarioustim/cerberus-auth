@@ -10,7 +10,8 @@ def test_setup_logging(caplog):
     with caplog.at_level("INFO"):
         logger.setup_logging()
 
-    assert "Logging setup from /app/cerberusauth/logging.yml." in caplog.text
+    assert "Logging setup from /app/src/cerberusauth/logging.yml."\
+        in caplog.text
 
 
 def test_setup_logging_with_bad_config(caplog):

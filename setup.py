@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 HERE = os.path.abspath(os.path.dirname(__file__))
 
 ABOUT = {}
-with open(os.path.join(HERE, 'cerberusauth', '__version__.py')) as f:
+with open(os.path.join(HERE, 'src', 'cerberusauth', '__version__.py')) as f:
     exec(f.read(), ABOUT)
 
 with open('README.md') as fp:
