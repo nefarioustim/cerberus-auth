@@ -15,7 +15,7 @@ services:
       - backend
 
   postgres:
-    image: postgres:9
+    image: postgres:alpine
     container_name: postgres
     environment:
       POSTGRES_USER: ${STORAGE_USER}

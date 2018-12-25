@@ -1,3 +1,7 @@
+addons:
+  sonarcloud:
+    organization: "nefarioustim-github"
+
 sudo: required
 
 language: python
@@ -8,4 +12,6 @@ before_install: docker pull nefarioustim/cerberus-auth
 
 install: true
 
-script: docker run -v ${PWD}:/app nefarioustim/cerberus-auth pipenv run pytest
+script:
+  - docker run -v ${PWD}:/app nefarioustim/cerberus-auth pipenv run pytest
+  - sonar-scanner
