@@ -4,7 +4,7 @@ from unittest import mock
 
 import pytest
 
-from cerberusauth.repository import permission, role
+from cerberusauth.repository import permission, role, user
 from cerberusauth.repository.adapter import sql
 from cerberusauth.models import sql as sql_models
 
@@ -23,7 +23,13 @@ from . import data_for_tests
     'repo_adapter_class': sql.SQLRepositoryAdapter,
     'model_class': sql_models.Role,
     'data_factory': data_for_tests.get_role
-}], ids=["permission", "role"])
+}, {
+    'factory': user.get_repository,
+    'repo_class': user.UserRepository,
+    'repo_adapter_class': sql.SQLRepositoryAdapter,
+    'model_class': sql_models.User,
+    'data_factory': data_for_tests.get_user
+}], ids=["permission", "role", "user"])
 def repo_fixture(request):
     """Fixture for repo tests."""
     return request.param
