@@ -1,5 +1,5 @@
 """
-Repository object for Permission models.
+Repository object for Role models.
 """
 
 import logging
@@ -10,19 +10,19 @@ from .. import config
 
 def get_repository(session=None, storage_strategy=None, logger=None):
     """PermissionRepository factory."""
-    return PermissionRepository(
+    return RoleRepository(
         session=session,
         storage_strategy=storage_strategy,
         logger=logger
     )
 
 
-class PermissionRepository(BaseRepository):
+class RoleRepository(BaseRepository):
     """Provide CRUD behaviour for aggregate roots."""
 
     def __init__(self, session=None, storage_strategy=None, logger=None):
         self.storage_strategy = storage_strategy or config.STORAGE_STRATEGY
-        self.agg_root_class = models.get_permission_class(
+        self.agg_root_class = models.get_role_class(
             storage_strategy)
         self.adapter = adapter.repository_adapter_factory(
             session, storage_strategy)

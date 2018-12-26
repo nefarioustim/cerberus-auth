@@ -2,29 +2,49 @@
 
 from unittest import mock
 
-from cerberusauth.repository import permission
+import pytest
+
+from cerberusauth.repository import permission, role
 from cerberusauth.repository.adapter import sql
 from cerberusauth.models import sql as sql_models
 
 from . import data_for_tests
 
 
-def test_permission_repository_factory():
+@pytest.fixture(params=[{
+    'factory': permission.get_repository,
+    'repo_class': permission.PermissionRepository,
+    'repo_adapter_class': sql.SQLRepositoryAdapter,
+    'model_class': sql_models.Permission,
+    'data_factory': data_for_tests.get_permission
+}, {
+    'factory': role.get_repository,
+    'repo_class': role.RoleRepository,
+    'repo_adapter_class': sql.SQLRepositoryAdapter,
+    'model_class': sql_models.Role,
+    'data_factory': data_for_tests.get_role
+}], ids=["permission", "role"])
+def repo_fixture(request):
+    """Fixture for repo tests."""
+    return request.param
+
+
+def test_repository_factory(repo_fixture):
     """."""
-    repo = permission.get_repository()
+    repo = repo_fixture['factory']()
 
     assert repo
-    assert isinstance(repo, permission.PermissionRepository)
-    assert isinstance(repo.adapter, sql.SQLRepositoryAdapter)
-    assert repo.agg_root_class is sql_models.Permission
+    assert isinstance(repo, repo_fixture['repo_class'])
+    assert isinstance(repo.adapter, repo_fixture['repo_adapter_class'])
+    assert repo.agg_root_class is repo_fixture['model_class']
 
 
-def test_get_aggregate_root_object_returns_permission():
+def test_get_aggregate_root_object_returns_correct_agg_root(repo_fixture):
     """."""
-    repo = permission.get_repository()
+    repo = repo_fixture['factory']()
 
     agg_root = repo.get_aggregate_root_object(
-        data_for_tests.get_permission()
+        repo_fixture['data_factory']()
     )
 
     assert agg_root
@@ -37,9 +57,9 @@ def test_get_aggregate_root_object_returns_permission():
     assert isinstance(agg_root, repo.agg_root_class)
 
 
-def test_count_calls_adapter():
+def test_count_calls_adapter(repo_fixture):
     """."""
-    repo = permission.get_repository()
+    repo = repo_fixture['factory']()
     repo.adapter = mock.Mock()
 
     repo.count()
@@ -48,9 +68,9 @@ def test_count_calls_adapter():
     repo.adapter.count.assert_called_with(repo.agg_root_class)
 
 
-def test_get(caplog):
+def test_get(caplog, repo_fixture):
     """."""
-    repo = permission.get_repository()
+    repo = repo_fixture['factory']()
     repo.adapter.get = mock.Mock()
 
     with caplog.at_level("INFO"):
@@ -62,10 +82,10 @@ def test_get(caplog):
     ) in caplog.text
 
 
-def test_get_batch(caplog):
+def test_get_batch(caplog, repo_fixture):
     """."""
     test_ids = [1, 2, 3, 4]
-    repo = permission.get_repository()
+    repo = repo_fixture['factory']()
     repo.adapter.get = mock.Mock()
 
     with caplog.at_level("INFO"):
@@ -78,17 +98,17 @@ def test_get_batch(caplog):
         ) in caplog.text
 
 
-def test_save(caplog):
+def test_save(caplog, repo_fixture):
     """."""
-    repo = permission.get_repository()
+    repo = repo_fixture['factory']()
     return_perm = repo.get_aggregate_root_object(
-        data_for_tests.get_permission())
+        repo_fixture['data_factory']())
     return_perm.id = 1
     repo.adapter.save = mock.MagicMock(return_value=return_perm)
     repo.adapter.save.__name__ = 'save'
 
     with caplog.at_level("INFO"):
-        repo.save(data_for_tests.get_permission())
+        repo.save(repo_fixture['data_factory']())
 
     repo.adapter.save.assert_called_once()
     assert '{} {} with ID 1'.format(
@@ -97,13 +117,13 @@ def test_save(caplog):
     ) in caplog.text
 
 
-def test_save_batch():
+def test_save_batch(repo_fixture):
     """."""
     count = 5
-    repo = permission.get_repository()
+    repo = repo_fixture['factory']()
     repo.adapter.save = mock. Mock()
     list_of_dicts = [
-        data_for_tests.get_permission(id='test') for i in range(count)
+        repo_fixture['data_factory'](id='test') for i in range(count)
     ]
 
     saved = repo.save(*list_of_dicts)
@@ -113,14 +133,14 @@ def test_save_batch():
     assert len(saved) == count
 
 
-def test_delete(caplog):
+def test_delete(caplog, repo_fixture):
     """."""
-    repo = permission.get_repository()
+    repo = repo_fixture['factory']()
     repo.adapter.delete = mock.MagicMock(return_value=None)
     repo.adapter.delete.__name__ = 'delete'
 
     with caplog.at_level("INFO"):
-        repo.delete(data_for_tests.get_permission(id=1))
+        repo.delete(repo_fixture['data_factory'](id=1))
 
     repo.adapter.delete.assert_called_once()
     assert '{} {} with ID 1'.format(
@@ -129,14 +149,14 @@ def test_delete(caplog):
     ) in caplog.text
 
 
-def test_delete_batch(caplog):
+def test_delete_batch(caplog, repo_fixture):
     """."""
     count = 5
-    repo = permission.get_repository()
+    repo = repo_fixture['factory']()
     repo.adapter.delete = mock.MagicMock(return_value=None)
     repo.adapter.delete.__name__ = 'delete'
     list_of_dicts = [
-        data_for_tests.get_permission(id='test') for i in range(count)
+        repo_fixture['data_factory'](id='test') for i in range(count)
     ]
 
     with caplog.at_level("INFO"):
