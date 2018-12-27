@@ -29,6 +29,8 @@ with open('LICENSE') as f:
 REQUIRED = [
     'alembic',
     'bcrypt',
+    'nameko',
+    'pika',
     'psycopg2-binary',
     'python-slugify',
     'pyyaml',
