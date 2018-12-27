@@ -4,8 +4,6 @@ Tests for models.
 
 import pytest
 
-from slugify import slugify
-
 from cerberusauth import models as model_factories
 
 from .data_for_tests import get_user, get_role, get_permission
