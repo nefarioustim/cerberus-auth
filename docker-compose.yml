@@ -31,6 +31,12 @@ services:
       timeout: 5s
       retries: 5
 
+  rabbit:
+    image: rabbitmq:alpine
+    container_name: rabbit
+    networks:
+      - backend
+
 volumes:
   pgdata:
     driver: local
