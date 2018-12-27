@@ -106,6 +106,9 @@ class BaseRole(BaseModel):
         self.name = name
         self.description = kwargs.pop("description", None)
 
+        namespace = kwargs.pop("namespace", None)
+        self.namespace = slugify(namespace) if namespace else None
+
         super().__init__(*args, **kwargs)
 
 
@@ -116,5 +119,8 @@ class BasePermission(BaseModel):
         """Constructor."""
         self.slug = slugify(slug)
         self.description = kwargs.pop("description", None)
+
+        namespace = kwargs.pop("namespace", None)
+        self.namespace = slugify(namespace) if namespace else None
 
         super().__init__(*args, **kwargs)
