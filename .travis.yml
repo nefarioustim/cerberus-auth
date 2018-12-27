@@ -6,6 +6,9 @@ sudo: required
 
 language: python
 
+git:
+  depth: false
+
 services: docker
 
 before_install: docker pull nefarioustim/cerberus-auth
