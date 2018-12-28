@@ -5,6 +5,7 @@ from unittest import mock
 import pytest
 
 from cerberusauth.repository import permission, role, user
+from cerberusauth.repository.adapter import RepositoryAdapterInterface
 from cerberusauth.repository.adapter import sql
 from cerberusauth.models import sql as sql_models
 
@@ -41,6 +42,8 @@ def test_repository_factory(repo_fixture):
 
     assert repo
     assert isinstance(repo, repo_fixture['repo_class'])
+    assert issubclass(
+        repo_fixture['repo_adapter_class'], RepositoryAdapterInterface)
     assert isinstance(repo.adapter, repo_fixture['repo_adapter_class'])
     assert repo.agg_root_class is repo_fixture['model_class']
 
@@ -110,8 +113,10 @@ def test_save(caplog, repo_fixture):
     return_perm = repo.get_aggregate_root_object(
         repo_fixture['data_factory']())
     return_perm.id = 1
-    repo.adapter.save = mock.MagicMock(return_value=return_perm)
+    repo.adapter = mock.MagicMock()
     repo.adapter.save.__name__ = 'save'
+    repo.adapter.save.return_value = return_perm
+    repo.adapter.commit = mock.Mock()
 
     with caplog.at_level("INFO"):
         repo.save(repo_fixture['data_factory']())
@@ -121,13 +126,15 @@ def test_save(caplog, repo_fixture):
         repo.adapter.save.__name__,
         repo.agg_root_class.__name__
     ) in caplog.text
+    repo.adapter.commit.assert_called_once()
 
 
 def test_save_batch(repo_fixture):
     """."""
     count = 5
     repo = repo_fixture['factory']()
-    repo.adapter.save = mock. Mock()
+    repo.adapter = mock.Mock()
+    repo.adapter.commit = mock.Mock()
     list_of_dicts = [
         repo_fixture['data_factory'](id='test') for i in range(count)
     ]
@@ -142,8 +149,10 @@ def test_save_batch(repo_fixture):
 def test_delete(caplog, repo_fixture):
     """."""
     repo = repo_fixture['factory']()
-    repo.adapter.delete = mock.MagicMock(return_value=None)
+    repo.adapter = mock.MagicMock()
     repo.adapter.delete.__name__ = 'delete'
+    repo.adapter.delete.return_value = None
+    repo.adapter.commit = mock.Mock()
 
     with caplog.at_level("INFO"):
         repo.delete(repo_fixture['data_factory'](id=1))
@@ -153,14 +162,17 @@ def test_delete(caplog, repo_fixture):
         repo.adapter.delete.__name__,
         repo.agg_root_class.__name__
     ) in caplog.text
+    repo.adapter.commit.assert_called_once()
 
 
 def test_delete_batch(caplog, repo_fixture):
     """."""
     count = 5
     repo = repo_fixture['factory']()
-    repo.adapter.delete = mock.MagicMock(return_value=None)
+    repo.adapter = mock.MagicMock()
     repo.adapter.delete.__name__ = 'delete'
+    repo.adapter.delete.return_value = None
+    repo.adapter.commit = mock.Mock()
     list_of_dicts = [
         repo_fixture['data_factory'](id='test') for i in range(count)
     ]

@@ -46,14 +46,22 @@ class BaseRepository(object):
 
     def save(self, *aggregate_roots):
         """Save an aggregate root or roots."""
-        return [
+        results = [
             self._bulk_process(agg_root, self.adapter.save)
             for agg_root in aggregate_roots
         ]
 
+        self.adapter.commit()
+
+        return results
+
     def delete(self, *aggregate_roots):
         """Delete an aggregate root or roots."""
-        return [
+        results = [
             self._bulk_process(agg_root, self.adapter.delete)
             for agg_root in aggregate_roots
         ]
+
+        self.adapter.commit()
+
+        return results

@@ -27,8 +27,12 @@ def repository_adapter_factory(session, storage_strategy=None):
 class RepositoryAdapterInterface(object):
     """Interface for RepositoryAdapter."""
 
+    def commit(self):
+        """Commit a change."""
+        return None
+
     def save(self, aggregate_root):
-        """Save a SQLAlchemy model."""
+        """Save an aggregate root."""
         raise NotImplementedError
 
     def count(self):

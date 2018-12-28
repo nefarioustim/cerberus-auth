@@ -17,6 +17,10 @@ class SQLRepositoryAdapter(RepositoryAdapterInterface):
         """Initialise an instance."""
         self.session = session
 
+    def commit(self):
+        """Commit a SQLAlchemy change."""
+        self.session.commit()
+
     def save(self, aggregate_root):
         """Save a SQLAlchemy model."""
         self.session.add(aggregate_root)

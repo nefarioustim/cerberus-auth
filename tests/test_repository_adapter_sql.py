@@ -19,6 +19,15 @@ def test_sql_adapter_instantiates(storage_session):
     assert isinstance(adapter, sqladapter.SQLRepositoryAdapter)
 
 
+def test_sql_adapter_commit(storage_session):
+    """."""
+    adapter = sqladapter.SQLRepositoryAdapter(storage_session)
+
+    adapter.commit()
+
+    storage_session.commit.assert_called_once()
+
+
 def test_sql_adapter_save(storage_session):
     """."""
     adapter = sqladapter.SQLRepositoryAdapter(storage_session)
@@ -30,7 +39,7 @@ def test_sql_adapter_save(storage_session):
     assert added == thing
 
 
-def test_repository_count(storage_session):
+def test_sql_adapter_count(storage_session):
     """."""
     adapter = sqladapter.SQLRepositoryAdapter(storage_session)
 
@@ -42,7 +51,7 @@ def test_repository_count(storage_session):
     query.scalar.assert_called_once()
 
 
-def test_repository_get(storage_session):
+def test_sql_adapter_get(storage_session):
     """."""
     adapter = sqladapter.SQLRepositoryAdapter(storage_session)
     adapter.get(MockSQLModel, 1234)
@@ -55,7 +64,7 @@ def test_repository_get(storage_session):
     assert query.get.call_args[0][0] == 1234
 
 
-def test_repository_delete(storage_session):
+def test_sql_adapter_delete(storage_session):
     """."""
     adapter = sqladapter.SQLRepositoryAdapter(storage_session)
     thing = Mock()

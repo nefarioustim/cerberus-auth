@@ -7,6 +7,13 @@ import pytest
 from cerberusauth.repository import adapter
 
 
+def test_interface_has_commit():
+    """."""
+    interface = adapter.RepositoryAdapterInterface()
+
+    assert interface.commit() is None
+
+
 def test_interface_has_save():
     """."""
     interface = adapter.RepositoryAdapterInterface()
