@@ -9,30 +9,31 @@ from cerberusauth.repository.adapter import RepositoryAdapterInterface
 from cerberusauth.repository.adapter import sql
 from cerberusauth.models import sql as sql_models
 
-from . import data_for_tests
-
 
 @pytest.fixture(params=[{
     'factory': permission.get_repository,
     'repo_class': permission.PermissionRepository,
     'repo_adapter_class': sql.SQLRepositoryAdapter,
-    'model_class': sql_models.Permission,
-    'data_factory': data_for_tests.get_permission
+    'model_class': sql_models.Permission
 }, {
     'factory': role.get_repository,
     'repo_class': role.RoleRepository,
     'repo_adapter_class': sql.SQLRepositoryAdapter,
-    'model_class': sql_models.Role,
-    'data_factory': data_for_tests.get_role
+    'model_class': sql_models.Role
 }, {
     'factory': user.get_repository,
     'repo_class': user.UserRepository,
     'repo_adapter_class': sql.SQLRepositoryAdapter,
-    'model_class': sql_models.User,
-    'data_factory': data_for_tests.get_user
+    'model_class': sql_models.User
 }], ids=["permission", "role", "user"])
-def repo_fixture(request):
+def repo_fixture(request, get_permission, get_role, get_user):
     """Fixture for repo tests."""
+    if request.param['model_class'] == sql_models.Permission:
+        request.param['data_factory'] = get_permission
+    elif request.param['model_class'] == sql_models.Role:
+        request.param['data_factory'] = get_role
+    elif request.param['model_class'] == sql_models.User:
+        request.param['data_factory'] = get_user
     return request.param
 
 
