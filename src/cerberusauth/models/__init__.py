@@ -63,6 +63,9 @@ class BaseModel(object):
         self.is_enabled = kwargs.pop("is_enabled", True)
         self.is_deleted = kwargs.pop("is_deleted", False)
 
+        namespace = kwargs.pop("namespace", None)
+        self.namespace = slugify(namespace) if namespace else None
+
 
 class BaseUser(BaseModel):
     """BaseUser model."""
@@ -106,9 +109,6 @@ class BaseRole(BaseModel):
         self.name = name
         self.description = kwargs.pop("description", None)
 
-        namespace = kwargs.pop("namespace", None)
-        self.namespace = slugify(namespace) if namespace else None
-
         super().__init__(*args, **kwargs)
 
 
@@ -119,8 +119,5 @@ class BasePermission(BaseModel):
         """Constructor."""
         self.slug = slugify(slug)
         self.description = kwargs.pop("description", None)
-
-        namespace = kwargs.pop("namespace", None)
-        self.namespace = slugify(namespace) if namespace else None
 
         super().__init__(*args, **kwargs)

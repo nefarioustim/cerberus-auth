@@ -38,6 +38,7 @@ def assert_instantiation(model_cls, model_dict):
     assert model_obj.is_deleted is False
     assert model_obj.created is not None
     assert model_obj.modified == model_obj.created
+    assert hasattr(model_obj, 'namespace')
     assert_object_matches_dict(model_obj, model_dict)
 
 
@@ -77,6 +78,20 @@ def test_user_model_authenticate(user, get_user):
     user.new_password(user_dict["password"])
 
     assert user.authenticate(user_dict["password"])
+
+
+@pytest.mark.parametrize("test_ns, expected_ns", [
+    ("Wyrd Technology", "wyrd-technology"),
+    ("___This is a test___", "this-is-a-test"),
+    (None, None),
+    (False, None)
+])
+def test_user_model_namespace(user, get_user, test_ns, expected_ns):
+    """."""
+    user = user(namespace=test_ns, **get_user())
+
+    assert user
+    assert user.namespace == expected_ns
 
 
 def test_role_model_requires_name(role):
