@@ -5,9 +5,9 @@ Tests for core objects.
 import cerberusauth
 
 
-def test_create_cerberus():
+def test_cerberus():
     """."""
-    cerberus = cerberusauth.create_cerberus()
+    cerberus = cerberusauth.cerberus()
 
     assert cerberus
     assert isinstance(cerberus, cerberusauth.CerberusAuth)

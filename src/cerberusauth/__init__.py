@@ -5,7 +5,7 @@ Cerberus - Authentication and authorisation microservice.
 from . import registration
 
 
-def create_cerberus():
+def cerberus():
     return CerberusAuth(
         registration_service=registration.create_registration_service()
     )
