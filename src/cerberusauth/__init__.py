@@ -7,7 +7,7 @@ from . import registration
 
 def create_cerberus():
     return CerberusAuth(
-        registration_service=registration.RegistrationService()
+        registration_service=registration.create_registration_service()
     )
 
 
