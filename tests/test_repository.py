@@ -43,8 +43,7 @@ def test_repository_factory(repo_fixture):
 
     assert repo
     assert isinstance(repo, repo_fixture['repo_class'])
-    assert issubclass(
-        repo_fixture['repo_adapter_class'], RepositoryAdapterInterface)
+    assert isinstance(repo.adapter, RepositoryAdapterInterface)
     assert isinstance(repo.adapter, repo_fixture['repo_adapter_class'])
     assert repo.agg_root_class is repo_fixture['model_class']
 
