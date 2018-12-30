@@ -7,32 +7,37 @@ import pytest
 from cerberusauth.repository import permission, role, user
 from cerberusauth.repository.adapter import RepositoryAdapterInterface
 from cerberusauth.repository.adapter import sql
+from cerberusauth import models
 from cerberusauth.models import sql as sql_models
-
-from . import data_for_tests
 
 
 @pytest.fixture(params=[{
     'factory': permission.get_repository,
     'repo_class': permission.PermissionRepository,
     'repo_adapter_class': sql.SQLRepositoryAdapter,
-    'model_class': sql_models.Permission,
-    'data_factory': data_for_tests.get_permission
+    'base_model_class': models.BasePermission,
+    'model_class': sql_models.Permission
 }, {
     'factory': role.get_repository,
     'repo_class': role.RoleRepository,
     'repo_adapter_class': sql.SQLRepositoryAdapter,
-    'model_class': sql_models.Role,
-    'data_factory': data_for_tests.get_role
+    'base_model_class': models.BaseRole,
+    'model_class': sql_models.Role
 }, {
     'factory': user.get_repository,
     'repo_class': user.UserRepository,
     'repo_adapter_class': sql.SQLRepositoryAdapter,
-    'model_class': sql_models.User,
-    'data_factory': data_for_tests.get_user
+    'base_model_class': models.BaseUser,
+    'model_class': sql_models.User
 }], ids=["permission", "role", "user"])
-def repo_fixture(request):
+def repo_fixture(request, get_permission, get_role, get_user):
     """Fixture for repo tests."""
+    if request.param['model_class'] == sql_models.Permission:
+        request.param['data_factory'] = get_permission
+    elif request.param['model_class'] == sql_models.Role:
+        request.param['data_factory'] = get_role
+    elif request.param['model_class'] == sql_models.User:
+        request.param['data_factory'] = get_user
     return request.param
 
 
@@ -42,8 +47,7 @@ def test_repository_factory(repo_fixture):
 
     assert repo
     assert isinstance(repo, repo_fixture['repo_class'])
-    assert issubclass(
-        repo_fixture['repo_adapter_class'], RepositoryAdapterInterface)
+    assert isinstance(repo.adapter, RepositoryAdapterInterface)
     assert isinstance(repo.adapter, repo_fixture['repo_adapter_class'])
     assert repo.agg_root_class is repo_fixture['model_class']
 
@@ -58,12 +62,16 @@ def test_get_aggregate_root_object_returns_correct_agg_root(repo_fixture):
 
     assert agg_root
     assert isinstance(agg_root, repo.agg_root_class)
+    assert isinstance(agg_root, repo_fixture['model_class'])
+    assert isinstance(agg_root, repo_fixture['base_model_class'])
 
     # Assert sending it an aggregate root object also works.
     agg_root = repo.get_aggregate_root_object(agg_root)
 
     assert agg_root
     assert isinstance(agg_root, repo.agg_root_class)
+    assert isinstance(agg_root, repo_fixture['model_class'])
+    assert isinstance(agg_root, repo_fixture['base_model_class'])
 
 
 def test_count_calls_adapter(repo_fixture):

@@ -6,8 +6,6 @@ import pytest
 
 from cerberusauth import models as model_factories
 
-from .data_for_tests import get_user, get_role, get_permission
-
 
 @pytest.fixture(params=[None, 'sql'])
 def user(request):
@@ -51,12 +49,12 @@ def test_user_model_requires_email_password_fullname(user):
     assert "email" in str(exc.value)
 
 
-def test_user_model_instantiates(user):
+def test_user_model_instantiates(user, get_user):
     """."""
     assert_instantiation(user, get_user())
 
 
-def test_user_model_new_password(user):
+def test_user_model_new_password(user, get_user):
     """."""
     user_dict = get_user()
     user = user(**user_dict)
@@ -69,7 +67,7 @@ def test_user_model_new_password(user):
     assert user.password.decode()
 
 
-def test_user_model_authenticate(user):
+def test_user_model_authenticate(user, get_user):
     """."""
     user_dict = get_user()
     user = user(**user_dict)
@@ -89,7 +87,7 @@ def test_role_model_requires_name(role):
     assert "name" in str(exc.value)
 
 
-def test_role_model_instantiates(role):
+def test_role_model_instantiates(role, get_role):
     """."""
     assert_instantiation(role, get_role())
 
@@ -100,7 +98,7 @@ def test_role_model_instantiates(role):
     (None, None),
     (False, None)
 ])
-def test_role_model_namespace(role, test_ns, expected_ns):
+def test_role_model_namespace(role, get_role, test_ns, expected_ns):
     """."""
     role = role(namespace=test_ns, **get_role())
 
@@ -116,7 +114,7 @@ def test_permission_model_requires_slug(permission):
     assert "slug" in str(exc.value)
 
 
-def test_permission_model_instantiates(permission):
+def test_permission_model_instantiates(permission, get_permission):
     """."""
     assert_instantiation(permission, get_permission())
 
@@ -127,7 +125,9 @@ def test_permission_model_instantiates(permission):
     (None, None),
     (False, None)
 ])
-def test_permission_model_namespace(permission, test_ns, expected_ns):
+def test_permission_model_namespace(
+    permission, get_permission, test_ns, expected_ns
+):
     """."""
     permission = permission(namespace=test_ns, **get_permission())
 
