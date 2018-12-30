@@ -2,9 +2,18 @@
 Repository for CRUD functions.
 """
 
+from . import adapter
+
 
 class BaseRepository(object):
     """Provide CRUD behaviour for aggregate roots."""
+
+    def __init__(self, logger, storage_strategy, session):
+        """Initialise the BaseRepository."""
+        self.logger = logger
+        self.storage_strategy = storage_strategy
+        self.adapter = adapter.repository_adapter_factory(
+            session, storage_strategy)
 
     def get_aggregate_root_object(self, agg_root):
         if isinstance(agg_root, dict):

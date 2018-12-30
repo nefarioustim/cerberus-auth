@@ -3,27 +3,27 @@ Repository object for Role models.
 """
 
 import logging
-from . import BaseRepository, adapter
+from . import BaseRepository
 from .. import models
 from .. import config
 
 
-def get_repository(session=None, storage_strategy=None, logger=None):
+def get_repository(logger=None, storage_strategy=None, session=None):
     """PermissionRepository factory."""
+    logger = logger or logging.getLogger(__name__)
+    storage_strategy = storage_strategy or config.STORAGE_STRATEGY
     return UserRepository(
-        session=session,
+        logger=logger,
         storage_strategy=storage_strategy,
-        logger=logger
+        session=session
     )
 
 
 class UserRepository(BaseRepository):
     """Provide CRUD behaviour for aggregate roots."""
 
-    def __init__(self, session=None, storage_strategy=None, logger=None):
-        self.storage_strategy = storage_strategy or config.STORAGE_STRATEGY
+    def __init__(self, logger, storage_strategy, session=None):
+        super(UserRepository, self).__init__(
+            logger, storage_strategy, session)
         self.agg_root_class = models.get_user_class(
-            storage_strategy)
-        self.adapter = adapter.repository_adapter_factory(
-            session, storage_strategy)
-        self.logger = logger or logging.getLogger(__name__)
+            self.storage_strategy)
