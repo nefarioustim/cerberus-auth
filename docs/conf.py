@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Cerberus'
-copyright = '2018, Tim Huegdon'
+copyright = '2019, Wyrd Technology'
 author = 'Tim Huegdon'
 
 # The short X.Y version
