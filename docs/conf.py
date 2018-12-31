@@ -87,7 +87,9 @@ html_theme_options = {
     'github_repo': 'cerberus-auth',
     'description': 'A user authentication and authorisation microservice',
     'travis_button': True,
-    'show_powered_by': False
+    'show_powered_by': False,
+    'show_relbars': True,
+    'show_related': True
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
@@ -103,7 +105,16 @@ html_theme_options = {
 # default: ``['localtoc.html', 'relations.html', 'sourcelink.html',
 # 'searchbox.html']``.
 #
-html_sidebars = {}
+html_sidebars = {
+    '**': [
+        'api/modules.html',
+        'about.html',
+        'navigation.html',
+        'relations.html',
+        'searchbox.html',
+        'donate.html',
+    ]
+}
 
 
 # -- Options for HTMLHelp output ---------------------------------------------
