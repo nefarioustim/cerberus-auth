@@ -1,0 +1,4 @@
+name: cerberus
+dependencies:
+  - bcrypt
+  - sqlalchemy
