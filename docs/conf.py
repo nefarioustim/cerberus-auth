@@ -107,7 +107,6 @@ html_theme_options = {
 #
 html_sidebars = {
     '**': [
-        'api/modules.html',
         'about.html',
         'navigation.html',
         'relations.html',
