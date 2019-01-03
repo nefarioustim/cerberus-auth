@@ -1,9 +1,10 @@
 """
-Commands for CerberusAuth.
+Registration commands for CerberusAuth.
 """
 
 import logging
-from cerberusauth.repository import user
+from ..repository import user
+from . import filter as reg_filter
 
 
 def create_register_users_command(session=None, logger=None):
@@ -26,10 +27,9 @@ class RegisterUsersCommand(object):
     def __call__(self, *user_dicts):
         """Register multiple users from @user_dicts."""
         filtered_user_dicts = [
-            user_dict
-            for user_dict in user_dicts if
-            isinstance(user_dict, dict) and  # is a dict
-            'email' in user_dict  # dict has an email
+            reg_filter.filter_user_dict(user_dict)
+            for user_dict in user_dicts
+            if reg_filter.filter_user_dict(user_dict)
         ]
         users = self.user_repository.save(*filtered_user_dicts)
 
