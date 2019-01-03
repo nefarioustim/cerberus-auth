@@ -3,7 +3,7 @@ Tests for registration filters.
 """
 
 import pytest
-from cerberusauth.registration import filter as reg_filter
+from cerberusauth.registration import filters
 
 
 @pytest.mark.parametrize("user_dict, expected", ((
@@ -23,6 +23,6 @@ from cerberusauth.registration import filter as reg_filter
 )))
 def test_filter_user_dict(user_dict, expected):
     """."""
-    filtered = reg_filter.filter_user_dict(user_dict)
+    filtered = filters.filter_user_dict(user_dict)
 
     assert filtered == expected
