@@ -16,3 +16,5 @@ LOGGING_CONFIG_FILE = os.getenv(
 STORAGE_STRATEGY = os.getenv("STORAGE_STRATEGY", "sql")
 STORAGE_USER = os.getenv("STORAGE_USER", None)
 STORAGE_PASSWORD = os.getenv("STORAGE_PASSWORD", None)
+SMTP_USER = os.getenv("SMTP_USER", None)
+SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", None)
