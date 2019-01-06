@@ -3,7 +3,6 @@ Models.
 """
 
 import base64
-from datetime import datetime
 import hashlib
 import bcrypt
 from slugify import slugify
