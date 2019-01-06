@@ -58,8 +58,8 @@ class BaseModel(object):
     def __init__(self, *args, **kwargs):
         """Constructor."""
         self.id = kwargs.pop("id", None)
-        self.created = kwargs.pop("created", datetime.utcnow())
-        self.modified = kwargs.pop("modified", self.created)
+        self.created = kwargs.pop("created", None)
+        self.modified = kwargs.pop("modified", None)
         self.is_enabled = kwargs.pop("is_enabled", True)
         self.is_deleted = kwargs.pop("is_deleted", False)
 
@@ -70,11 +70,18 @@ class BaseModel(object):
 class BaseUser(BaseModel):
     """BaseUser model."""
 
-    def __init__(self, email, password=None, fullname=None, *args, **kwargs):
+    def __init__(
+        self, email,
+        password=None, fullname=None,
+        is_verified=False, has_temp_password=False,
+        *args, **kwargs
+    ):
         """Constructor."""
         self.email = email
         self.password = password
         self.fullname = fullname
+        self.is_verified = is_verified
+        self.has_temp_password = has_temp_password
 
         super().__init__(*args, **kwargs)
 
@@ -86,8 +93,9 @@ class BaseUser(BaseModel):
             ).digest()
         )
 
-    def new_password(self, unhashed_password):
+    def new_password(self, unhashed_password, is_temporary=True):
         """Encode and hash a newly created password."""
+        self.has_temp_password = is_temporary
         self.password = bcrypt.hashpw(
             self._encode_password(unhashed_password),
             bcrypt.gensalt()

@@ -4,17 +4,16 @@ SQLAlchemy Models.
 
 from sqlalchemy import Column, Integer, String, Boolean
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy_repr import RepresentableBase
 from sqlalchemy_utc import UtcDateTime, utcnow
 
 from . import BaseUser, BaseRole, BasePermission
 
 
-class BaseSQLModel(RepresentableBase):
+class BaseSQLModel(object):
     """Base model for SQLAlchemy."""
     id = Column('id', Integer, primary_key=True)
-    created = Column(UtcDateTime, default=utcnow())
-    modified = Column(UtcDateTime, onupdate=utcnow())
+    created = Column(UtcDateTime(), default=utcnow())
+    modified = Column(UtcDateTime(), onupdate=utcnow())
     is_enabled = Column(Boolean(), default=True)
     is_deleted = Column(Boolean(), default=False)
 

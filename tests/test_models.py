@@ -36,7 +36,7 @@ def assert_instantiation(model_cls, model_dict):
     assert isinstance(model_obj, model_cls)
     assert model_obj.is_enabled is True
     assert model_obj.is_deleted is False
-    assert model_obj.created is not None
+    assert model_obj.created is None
     assert model_obj.modified == model_obj.created
     assert hasattr(model_obj, 'namespace')
     assert_object_matches_dict(model_obj, model_dict)
