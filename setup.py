@@ -35,9 +35,9 @@ REQUIRED = [
     'python-slugify',
     'pyyaml',
     'sqlalchemy',
-    'sqlalchemy-repr',
     'sqlalchemy-utc',
-    'sqlalchemy-utils'
+    'sqlalchemy-utils',
+    'xkcdpass'
 ]
 
 setup(

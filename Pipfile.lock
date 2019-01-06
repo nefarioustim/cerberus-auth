@@ -344,12 +344,6 @@
             ],
             "version": "==1.2.15"
         },
-        "sqlalchemy-repr": {
-            "hashes": [
-                "sha256:1477fa65ab437bc7f4ebc92a3b259120cd7c0f53146290f60f1d2aeafcdc5c45"
-            ],
-            "version": "==0.0.1"
-        },
         "sqlalchemy-utc": {
             "hashes": [
                 "sha256:ec5395dfa4d237239c162a1b83283d88c8e2a94219512708634c55329c900278",
@@ -395,6 +389,12 @@
                 "sha256:d4d560d479f2c21e1b5443bbd15fe7ec4b37fe7e53d335d3b9b0a7b1226fe3c6"
             ],
             "version": "==1.10.11"
+        },
+        "xkcdpass": {
+            "hashes": [
+                "sha256:12a34a02b958a14a2ccb06299d7b9ed3a8ee5d5f44500d2f879b26d573d8051d"
+            ],
+            "version": "==1.17.0"
         },
         "zipp": {
             "hashes": [
