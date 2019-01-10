@@ -71,6 +71,9 @@ def test_register_users_command(
 
     for user in users:
         assert isinstance(user, models.BaseUser)
+        assert user.password
+        assert isinstance(user.password, bytes)
+        assert len(user.password) > 29
 
     assert 'Registered {} new User(s): {}'.format(
         expected_count,
