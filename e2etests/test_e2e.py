@@ -32,3 +32,5 @@ def test_register_new_user(cerberus_fixture):
     assert isinstance(new_user.password, bytes)
     assert len(new_user.password) > 25
     assert new_user.has_temp_password
+    assert new_user.created
+    assert new_user.modified

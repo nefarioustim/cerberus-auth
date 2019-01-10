@@ -13,7 +13,7 @@ class BaseSQLModel(object):
     """Base model for SQLAlchemy."""
     id = Column('id', Integer, primary_key=True)
     created = Column(UtcDateTime(), default=utcnow())
-    modified = Column(UtcDateTime(), onupdate=utcnow())
+    modified = Column(UtcDateTime(), default=utcnow(), onupdate=utcnow())
     is_enabled = Column(Boolean(), default=True)
     is_deleted = Column(Boolean(), default=False)
 
