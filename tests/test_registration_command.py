@@ -18,31 +18,27 @@ def test_create_register_users_command():
 
 
 @pytest.mark.parametrize("list_of_dicts, expected_count", [
+    ([{"email": "joe.bloggs@somewhere.com", "id": "test"}], 1),
     ([
-        {"email": "joe.bloggs@somewhere.com", "id": "test"},
         {"email": "joe.bloggs@somewhere.com", "id": "test"},
         {"email": "joe.bloggs@somewhere.com", "id": "test"}
-    ], 3),
+    ], 2),
     ([
-        {"email": "joe.bloggs@somewhere.com", "id": "test", "foo": "bar"},
         {"email": "joe.bloggs@somewhere.com", "id": "test", "foo": "bar"},
         {"email": "joe.bloggs@somewhere.com", "id": "test", "foo": "bar"}
-    ], 3),
-    ([
-        {"email": "joe.bloggs@somewhere.com", "id": "test"},
-        "GEOFF!",
-        {"email": "joe.bloggs@somewhere.com", "id": "test"}
     ], 2),
     ([
         {"email": "joe.bloggs@somewhere.com", "id": "test"},
+        "GEOFF!"
+    ], 1),
+    ([
         {"email": "joe.bloggs@somewhere.com", "id": "test"},
         True
-    ], 2),
+    ], 1),
     ([
-        {"email": "joe.bloggs@somewhere.com", "id": "test"},
         {"notemail": "joe.bloggs@somewhere.com", "id": "test"},
         {"email": "joe.bloggs@somewhere.com", "id": "test"},
-    ], 2),
+    ], 1),
     ([
         "NO, JEFF!",
         {"id": "test", "fullname": "Joe Bloggs"},
