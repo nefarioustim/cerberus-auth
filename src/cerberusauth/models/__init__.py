@@ -9,6 +9,7 @@ from slugify import slugify
 
 from .. import config
 from .. import strategy
+from .. import registration.password
 
 
 def _import_storage_strategy(storage_strategy=None):
@@ -69,18 +70,13 @@ class BaseModel(object):
 class BaseUser(BaseModel):
     """BaseUser model."""
 
-    def __init__(
-        self, email,
-        password=None, fullname=None,
-        is_verified=False, has_temp_password=False,
-        *args, **kwargs
-    ):
+    def __init__(self, email, *args, **kwargs):
         """Constructor."""
         self.email = email
-        self.password = password
-        self.fullname = fullname
-        self.is_verified = is_verified
-        self.has_temp_password = has_temp_password
+        self.password = kwargs.pop('password', None)
+        self.fullname = kwargs.pop('fullname', None)
+        self.is_verified = kwargs.pop('is_verified', False)
+        self.has_temp_password = kwargs.pop('has_temp_password', False)
 
         super().__init__(*args, **kwargs)
 
