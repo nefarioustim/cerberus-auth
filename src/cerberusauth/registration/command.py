@@ -1,9 +1,12 @@
 """
-Commands for CerberusAuth.
+Registration commands for CerberusAuth.
 """
 
+import collections
 import logging
-from cerberusauth.repository import user
+from ..models import user_factory
+from ..repository import user
+from . import filters
 
 
 def create_register_users_command(session=None, logger=None):
@@ -18,6 +21,9 @@ def create_register_users_command(session=None, logger=None):
 class RegisterUsersCommand(object):
     """Command for registering User(s)."""
 
+    registered_user = collections.namedtuple(
+        'registered_user', 'user temp_password')
+
     def __init__(self, user_repository, logger=None):
         """Initialise an instance."""
         self.user_repository = user_repository
@@ -26,16 +32,27 @@ class RegisterUsersCommand(object):
     def __call__(self, *user_dicts):
         """Register multiple users from @user_dicts."""
         filtered_user_dicts = [
-            user_dict
-            for user_dict in user_dicts if
-            isinstance(user_dict, dict) and  # is a dict
-            'email' in user_dict  # dict has an email
+            filters.filter_user_dict(user_dict)
+            for user_dict in user_dicts
+            if filters.filter_user_dict(user_dict)
         ]
-        users = self.user_repository.save(*filtered_user_dicts)
+        generated_users = [
+            user_factory(**user_dict)
+            for user_dict in filtered_user_dicts
+        ]
+        generated_passwords = [user.set_password() for user in generated_users]
+
+        users = self.user_repository.save(*generated_users)
+        users = [
+            self.registered_user(user, generated_passwords[i])
+            for (i, user) in enumerate(users)
+        ]
 
         self.logger.info(
             "Registered {} new User(s): {}".format(
                 len(filtered_user_dicts),
-                ', '.join([u.email for u in users if u])))
+                ', '.join([u.email for (u, p) in users if u])
+            )
+        )
 
         return users

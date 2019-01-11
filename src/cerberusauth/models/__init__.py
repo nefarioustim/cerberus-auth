@@ -3,11 +3,11 @@ Models.
 """
 
 import base64
-from datetime import datetime
 import hashlib
 import bcrypt
 from slugify import slugify
 
+from .. import authentication
 from .. import config
 from .. import strategy
 
@@ -58,8 +58,8 @@ class BaseModel(object):
     def __init__(self, *args, **kwargs):
         """Constructor."""
         self.id = kwargs.pop("id", None)
-        self.created = kwargs.pop("created", datetime.utcnow())
-        self.modified = kwargs.pop("modified", self.created)
+        self.created = kwargs.pop("created", None)
+        self.modified = kwargs.pop("modified", None)
         self.is_enabled = kwargs.pop("is_enabled", True)
         self.is_deleted = kwargs.pop("is_deleted", False)
 
@@ -70,11 +70,13 @@ class BaseModel(object):
 class BaseUser(BaseModel):
     """BaseUser model."""
 
-    def __init__(self, email, password=None, fullname=None, *args, **kwargs):
+    def __init__(self, email, *args, **kwargs):
         """Constructor."""
         self.email = email
-        self.password = password
-        self.fullname = fullname
+        self.password = kwargs.pop('password', None)
+        self.fullname = kwargs.pop('fullname', None)
+        self.is_verified = kwargs.pop('is_verified', False)
+        self.has_temp_password = kwargs.pop('has_temp_password', False)
 
         super().__init__(*args, **kwargs)
 
@@ -86,12 +88,21 @@ class BaseUser(BaseModel):
             ).digest()
         )
 
-    def new_password(self, unhashed_password):
+    def set_password(self, unhashed_password=None):
         """Encode and hash a newly created password."""
+        if unhashed_password is None:
+            self.has_temp_password = True
+            unhashed_password = authentication.get_password()
+
+        else:
+            self.has_temp_password = False
+
         self.password = bcrypt.hashpw(
             self._encode_password(unhashed_password),
             bcrypt.gensalt()
         )
+
+        return unhashed_password
 
     def authenticate(self, password):
         """Authenticate password matches self.password."""

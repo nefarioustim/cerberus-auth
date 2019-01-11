@@ -18,31 +18,27 @@ def test_create_register_users_command():
 
 
 @pytest.mark.parametrize("list_of_dicts, expected_count", [
+    ([{"email": "joe.bloggs@somewhere.com", "id": "test"}], 1),
     ([
-        {"email": "joe.bloggs@somewhere.com", "id": "test"},
         {"email": "joe.bloggs@somewhere.com", "id": "test"},
         {"email": "joe.bloggs@somewhere.com", "id": "test"}
-    ], 3),
+    ], 2),
     ([
-        {"email": "joe.bloggs@somewhere.com", "id": "test", "foo": "bar"},
         {"email": "joe.bloggs@somewhere.com", "id": "test", "foo": "bar"},
         {"email": "joe.bloggs@somewhere.com", "id": "test", "foo": "bar"}
-    ], 3),
-    ([
-        {"email": "joe.bloggs@somewhere.com", "id": "test"},
-        "GEOFF!",
-        {"email": "joe.bloggs@somewhere.com", "id": "test"}
     ], 2),
     ([
         {"email": "joe.bloggs@somewhere.com", "id": "test"},
+        "GEOFF!"
+    ], 1),
+    ([
         {"email": "joe.bloggs@somewhere.com", "id": "test"},
         True
-    ], 2),
+    ], 1),
     ([
-        {"email": "joe.bloggs@somewhere.com", "id": "test"},
         {"notemail": "joe.bloggs@somewhere.com", "id": "test"},
         {"email": "joe.bloggs@somewhere.com", "id": "test"},
-    ], 2),
+    ], 1),
     ([
         "NO, JEFF!",
         {"id": "test", "fullname": "Joe Bloggs"},
@@ -69,9 +65,18 @@ def test_register_users_command(
     assert isinstance(users, list)
     assert len(users) == expected_count
 
-    for user in users:
+    for registered_user in users:
+        user = registered_user.user
         assert isinstance(user, models.BaseUser)
+        assert user.password
+        assert isinstance(user.password, bytes)
+        assert user.password.decode()
+        assert len(user.password) > 30
+
+        temp_password = registered_user.temp_password
+        assert isinstance(temp_password, str)
+        assert len(temp_password) > 30
 
     assert 'Registered {} new User(s): {}'.format(
         expected_count,
-        ', '.join([u.email for u in users])) in caplog.text
+        ', '.join([u.email for (u, p) in users])) in caplog.text

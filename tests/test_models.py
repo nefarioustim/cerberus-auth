@@ -36,7 +36,7 @@ def assert_instantiation(model_cls, model_dict):
     assert isinstance(model_obj, model_cls)
     assert model_obj.is_enabled is True
     assert model_obj.is_deleted is False
-    assert model_obj.created is not None
+    assert model_obj.created is None
     assert model_obj.modified == model_obj.created
     assert hasattr(model_obj, 'namespace')
     assert_object_matches_dict(model_obj, model_dict)
@@ -55,16 +55,26 @@ def test_user_model_instantiates(user, get_user):
     assert_instantiation(user, get_user())
 
 
-def test_user_model_new_password(user, get_user):
+@pytest.mark.parametrize("password_value, temp_value", (
+    ("testpassword", False),
+    (None, True)
+))
+def test_user_model_set_password(user, password_value, temp_value):
     """."""
-    user_dict = get_user()
-    user = user(**user_dict)
+    user = user(email="test-user@somewhere.com")
 
     assert user
 
-    user.new_password(user_dict["password"])
+    password = user.set_password(password_value)
 
-    assert user.password != user_dict["password"]
+    assert password
+    assert user.has_temp_password is temp_value
+    assert (
+        password != password_value
+        if user.has_temp_password else
+        password == password_value
+    )
+    assert user.password != password_value
     assert user.password.decode()
 
 
@@ -75,7 +85,7 @@ def test_user_model_authenticate(user, get_user):
 
     assert user
 
-    user.new_password(user_dict["password"])
+    user.set_password(user_dict["password"])
 
     assert user.authenticate(user_dict["password"])
 
