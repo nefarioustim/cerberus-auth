@@ -11,10 +11,11 @@ git:
 
 services: docker
 
-before_install: docker pull nefarioustim/cerberus-auth
+before_install:
+  - make build
 
 install: true
 
 script:
-  - docker run -v ${PWD}:/app nefarioustim/cerberus-auth pipenv run pytest
+  - make test
   - sonar-scanner
