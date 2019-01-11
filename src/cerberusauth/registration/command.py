@@ -2,8 +2,8 @@
 Registration commands for CerberusAuth.
 """
 
+import collections
 import logging
-from .. import authentication
 from ..models import user_factory
 from ..repository import user
 from . import filters
@@ -21,6 +21,9 @@ def create_register_users_command(session=None, logger=None):
 class RegisterUsersCommand(object):
     """Command for registering User(s)."""
 
+    RegisteredUser = collections.namedtuple(
+        'RegisteredUser', 'user temp_password')
+
     def __init__(self, user_repository, logger=None):
         """Initialise an instance."""
         self.user_repository = user_repository
@@ -37,14 +40,19 @@ class RegisterUsersCommand(object):
             user_factory(**user_dict)
             for user_dict in filtered_user_dicts
         ]
-        for gen_user in generated_users:
-            gen_user.new_password(authentication.get_password())
+        generated_passwords = [user.set_password() for user in generated_users]
 
         users = self.user_repository.save(*generated_users)
+        users = [
+            self.RegisteredUser(user, generated_passwords[i])
+            for (i, user) in enumerate(users)
+        ]
 
         self.logger.info(
             "Registered {} new User(s): {}".format(
                 len(filtered_user_dicts),
-                ', '.join([u.email for u in users if u])))
+                ', '.join([u.email for (u, p) in users if u])
+            )
+        )
 
         return users
