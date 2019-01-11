@@ -21,8 +21,8 @@ def create_register_users_command(session=None, logger=None):
 class RegisterUsersCommand(object):
     """Command for registering User(s)."""
 
-    RegisteredUser = collections.namedtuple(
-        'RegisteredUser', 'user temp_password')
+    registered_user = collections.namedtuple(
+        'registered_user', 'user temp_password')
 
     def __init__(self, user_repository, logger=None):
         """Initialise an instance."""
@@ -44,7 +44,7 @@ class RegisterUsersCommand(object):
 
         users = self.user_repository.save(*generated_users)
         users = [
-            self.RegisteredUser(user, generated_passwords[i])
+            self.registered_user(user, generated_passwords[i])
             for (i, user) in enumerate(users)
         ]
 
