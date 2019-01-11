@@ -7,6 +7,7 @@ import hashlib
 import bcrypt
 from slugify import slugify
 
+from .. import authentication
 from .. import config
 from .. import strategy
 
@@ -87,13 +88,21 @@ class BaseUser(BaseModel):
             ).digest()
         )
 
-    def new_password(self, unhashed_password, is_temporary=True):
+    def set_password(self, unhashed_password=None):
         """Encode and hash a newly created password."""
-        self.has_temp_password = is_temporary
+        if unhashed_password is None:
+            self.has_temp_password = True
+            unhashed_password = authentication.get_password()
+
+        else:
+            self.has_temp_password = False
+
         self.password = bcrypt.hashpw(
             self._encode_password(unhashed_password),
             bcrypt.gensalt()
         )
+
+        return unhashed_password
 
     def authenticate(self, password):
         """Authenticate password matches self.password."""
