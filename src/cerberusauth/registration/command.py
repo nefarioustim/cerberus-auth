@@ -3,9 +3,10 @@ Registration commands for CerberusAuth.
 """
 
 import logging
+from .. import authentication
 from ..models import user_factory
 from ..repository import user
-from . import filters, password as pw
+from . import filters
 
 
 def create_register_users_command(session=None, logger=None):
@@ -37,7 +38,7 @@ class RegisterUsersCommand(object):
             for user_dict in filtered_user_dicts
         ]
         for gen_user in generated_users:
-            gen_user.new_password(pw.get_password())
+            gen_user.new_password(authentication.get_password())
 
         users = self.user_repository.save(*generated_users)
 

@@ -1,13 +1,13 @@
 """
-Tests for registration password creation.
+Tests for authentication module.
 """
 
-from cerberusauth.registration import password as pw
+from cerberusauth import authentication
 
 
 def test_get_password():
     """."""
-    password = pw.get_password()
+    password = authentication.get_password()
 
     assert password
     assert isinstance(password, str)

@@ -1,5 +1,5 @@
 """
-Password creation for CerberusAuth.
+Authentication module for CerberusAuth.
 """
 
 import xkcdpass.xkcd_password as xp
