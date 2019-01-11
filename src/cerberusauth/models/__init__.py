@@ -9,7 +9,6 @@ from slugify import slugify
 
 from .. import config
 from .. import strategy
-from .. import registration.password
 
 
 def _import_storage_strategy(storage_strategy=None):
