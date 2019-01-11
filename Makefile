@@ -3,7 +3,7 @@
 all: test
 
 build: clean-pyc
-	docker-compose build --no-cache --compress app
+	docker-compose build --no-cache app
 
 pip-lock: clean-pyc
 	docker-compose run --rm --no-deps app pipenv lock
