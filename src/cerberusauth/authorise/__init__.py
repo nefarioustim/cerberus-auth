@@ -6,7 +6,7 @@ import logging
 
 
 def create_authorise_service(session=None, logger=None):
-    """RegisterService factory."""
+    """AuthoriseService factory."""
     logger = logger or logging.getLogger(__name__)
     return AuthoriseService()
 
