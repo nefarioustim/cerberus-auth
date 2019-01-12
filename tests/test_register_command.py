@@ -4,7 +4,7 @@ Tests for CommandRegisterUser.
 
 import pytest
 
-from cerberusauth.registration import command
+from cerberusauth.register import command
 from cerberusauth import models
 
 

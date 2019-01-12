@@ -13,7 +13,7 @@ def test_cerberus():
 
     assert cerberus
     assert isinstance(cerberus, cerberusauth.CerberusAuth)
-    assert cerberus.registration
+    assert cerberus.register
 
 
 def test_create_schema(monkeypatch):

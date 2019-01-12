@@ -3,7 +3,7 @@ Tests for registration filters.
 """
 
 import pytest
-from cerberusauth.registration import filters
+from cerberusauth.register import filters
 
 
 @pytest.mark.parametrize("user_dict, expected", ((

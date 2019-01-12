@@ -3,7 +3,7 @@ Cerberus - Authentication and authorisation microservice.
 """
 
 from . import config
-from . import registration
+from . import register
 from . import schema
 from . import storage
 
@@ -35,7 +35,7 @@ class CerberusAuth(object):
 
     def _setup_services(self):
         """Setup services with self.storage_session."""
-        self.registration = registration.create_registration_service(
+        self.register = register.create_register_service(
             session=self.storage_session)
 
     def create_schema(self):
