@@ -7,7 +7,7 @@ import hashlib
 import bcrypt
 from slugify import slugify
 
-from .. import authentication
+from .. import authenticate
 from .. import config
 from .. import strategy
 
@@ -92,7 +92,7 @@ class BaseUser(BaseModel):
         """Encode and hash a newly created password."""
         if unhashed_password is None:
             self.has_temp_password = True
-            unhashed_password = authentication.get_password()
+            unhashed_password = authenticate.AuthenticateService.get_password()
 
         else:
             self.has_temp_password = False
