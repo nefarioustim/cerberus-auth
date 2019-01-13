@@ -4,7 +4,7 @@ Authorisation commands for CerberusAuth.
 
 import logging
 from .. import filters
-from ..repository import permission
+from ..repository import permission, role
 
 
 def create_new_permissions_command(session=None, logger=None):
@@ -44,3 +44,42 @@ class NewPermissionsCommand(object):
         )
 
         return permissions
+
+
+def create_new_roles_command(session=None, logger=None):
+    """NewRolesCommand factory."""
+    logger = logger or logging.getLogger(__name__)
+    return NewRolesCommand(
+        role_repository=role.get_repository(
+            session=session, logger=logger),
+        logger=logger
+    )
+
+
+class NewRolesCommand(object):
+    """Command for creating new Role(s)."""
+
+    def __init__(self, role_repository, logger=None):
+        """Initialise an instance."""
+        self.role_repository = role_repository
+        self.logger = logger
+
+    def __call__(self, *role_dicts):
+        """Add multiple roles from @role_dicts."""
+        filtered_role_dicts = [
+            filters.filter_role_dict(role_dict)
+            for role_dict in role_dicts
+            if filters.filter_role_dict(role_dict)
+        ]
+
+        roles = self.role_repository.save(
+            *filtered_role_dicts)
+
+        self.logger.info(
+            "Registered {} new Role(s): {}".format(
+                len(filtered_role_dicts),
+                ', '.join([r.name for r in roles if r])
+            )
+        )
+
+        return roles

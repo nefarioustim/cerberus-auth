@@ -46,3 +46,8 @@ def filter_user_dict(user_dict):
 def filter_permission_dict(permission_dict):
     """Filter @permission_dict based on models.BasePermission."""
     return filter_model_dict(models.BasePermission, permission_dict)
+
+
+def filter_role_dict(role_dict):
+    """Filter @role_dict based on models.BaseRole."""
+    return filter_model_dict(models.BaseRole, role_dict)
