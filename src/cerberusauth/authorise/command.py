@@ -3,7 +3,7 @@ Authorisation commands for CerberusAuth.
 """
 
 import logging
-from ..models import permission_factory
+from .. import filters
 from ..repository import permission
 
 
@@ -27,4 +27,20 @@ class NewPermissionsCommand(object):
 
     def __call__(self, *permission_dicts):
         """Add multiple permissions from @permission_dicts."""
-        pass
+        filtered_permission_dicts = [
+            filters.filter_permission_dict(permission_dict)
+            for permission_dict in permission_dicts
+            if filters.filter_permission_dict(permission_dict)
+        ]
+
+        permissions = self.permission_repository.save(
+            *filtered_permission_dicts)
+
+        self.logger.info(
+            "Registered {} new Permission(s): {}".format(
+                len(filtered_permission_dicts),
+                ', '.join([p.slug for p in permissions if p])
+            )
+        )
+
+        return permissions
