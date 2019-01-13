@@ -48,3 +48,25 @@ def test_filter_permission_dict(permission_dict, expected):
     filtered = filters.filter_permission_dict(permission_dict)
 
     assert filtered == expected
+
+
+@pytest.mark.parametrize("role_dict, expected", ((
+    {'name': 'Admin'}, {'name': 'Admin'}
+), (
+    {'name': 'Admin', 'description': 'For administrators'},
+    {'name': 'Admin', 'description': 'For administrators'}
+), (
+    {'description': 'Wonky Donky'},
+    False
+), (
+    True,
+    False
+), (
+    "Geoffrey!",
+    False
+)))
+def test_filter_role_dict(role_dict, expected):
+    """."""
+    filtered = filters.filter_role_dict(role_dict)
+
+    assert filtered == expected
