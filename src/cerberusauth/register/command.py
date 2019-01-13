@@ -4,9 +4,9 @@ Registration commands for CerberusAuth.
 
 import collections
 import logging
+from .. import filters
 from ..models import user_factory
 from ..repository import user
-from . import filters
 
 
 def create_register_users_command(session=None, logger=None):
