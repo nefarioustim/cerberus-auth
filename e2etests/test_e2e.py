@@ -5,7 +5,7 @@ E2E tests.
 from sqlalchemy.inspection import inspect
 from cerberusauth.schema import sql as sqlschema
 
-EXPECTED_MODELS = ['user', 'role', 'permission']
+EXPECTED_MODELS = ['user', 'role', 'userrole', 'permission', 'rolepermission']
 
 
 def test_schema_creation(cerberus_fixture):
