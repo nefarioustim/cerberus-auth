@@ -32,6 +32,7 @@ REQUIRED = [
     'nameko',
     'pika',
     'psycopg2-binary',
+    'pyjwt',
     'python-slugify',
     'pyyaml',
     'sqlalchemy',
