@@ -115,6 +115,43 @@ def test_get_batch(caplog, repo_fixture):
         ) in caplog.text
 
 
+def test_get_by(caplog, repo_fixture):
+    """."""
+    repo = repo_fixture['factory']()
+    repo.adapter.get_by = mock.Mock()
+
+    with caplog.at_level("INFO"):
+        repo.get_by({'email': 'something'})
+
+    repo.adapter.get_by.assert_called_once_with(
+        repo.agg_root_class, 'email', 'something')
+    assert 'Got {} with email something'.format(
+        repo.agg_root_class.__name__
+    ) in caplog.text
+
+
+def test_get_by_batch(caplog, repo_fixture):
+    """."""
+    test_dicts = [
+        {'email': 'something'},
+        {'email': 'geoff'},
+        {'foo': 'bar'},
+        {'fullname': 'Geoff Jefferson'}
+    ]
+    repo = repo_fixture['factory']()
+    repo.adapter.get_by = mock.Mock()
+
+    with caplog.at_level("INFO"):
+        repo.get_by(*test_dicts)
+
+    for test_dict in test_dicts:
+        (key, value) = list(test_dict.items())[0]
+        repo.adapter.get_by.assert_any_call(repo.agg_root_class, key, value)
+        assert 'Got {} with {} {}'.format(
+            repo.agg_root_class.__name__, key, value
+        ) in caplog.text
+
+
 def test_save(caplog, repo_fixture):
     """."""
     repo = repo_fixture['factory']()
