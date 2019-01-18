@@ -43,6 +43,10 @@ class RepositoryAdapterInterface(object):
         """Get an aggregate root."""
         raise NotImplementedError
 
+    def get_by(self, key, value):
+        """Get an aggregate root."""
+        raise NotImplementedError
+
     def delete(self, aggregate_root):
         """Delete an aggregate root."""
         raise NotImplementedError
