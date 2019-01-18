@@ -43,10 +43,10 @@ class BaseRepository(object):
             self.agg_root_class.__name__, key, value))
         return agg_root
 
-    def get_by(self, *agg_root_prop_dicts):
+    def get_by(self, *agg_root_prop_items):
         return [
-            self._get_by(*list(agg_root_prop_dict.items())[0])
-            for agg_root_prop_dict in agg_root_prop_dicts
+            self._get_by(*agg_root_prop_item)
+            for agg_root_prop_item in agg_root_prop_items
         ]
 
     def _bulk_process(self, agg_root, func):
