@@ -46,3 +46,25 @@ class AuthenticateUserCommand(object):
             }, config.SECRET)
 
         return token
+
+
+def create_authenticate_token_command(session=None, logger=None):
+    """AuthenticateTokenCommand factory."""
+    logger = logger or logging.getLogger(__name__)
+    return AuthenticateTokenCommand(logger=logger)
+
+
+class AuthenticateTokenCommand(object):
+    """
+    Command for authenticating a token.
+
+    Checks validity of existing token.
+    """
+
+    def __init__(self, logger=None):
+        """Initialise an instance."""
+        self.logger = logger
+
+    def __call__(self, token):
+        """Authenticate token."""
+        return False

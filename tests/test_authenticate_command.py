@@ -72,3 +72,12 @@ def test_authenticate_user_command_no_user(caplog, storage_session):
 
     assert not token
     assert token is False
+
+
+def test_create_authenticate_token_command():
+    """."""
+    authenticate_token = command.create_authenticate_token_command()
+
+    assert authenticate_token
+    assert isinstance(authenticate_token, command.AuthenticateTokenCommand)
+    assert callable(authenticate_token)
