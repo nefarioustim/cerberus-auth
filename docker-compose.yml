@@ -32,10 +32,15 @@ services:
       retries: 5
 
   rabbit:
-    image: rabbitmq:alpine
+    image: rabbitmq:management-alpine
     container_name: rabbit
     networks:
       - backend
+    healthcheck:
+      test: ["CMD-SHELL", "rabbitmqctl status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   pgdata:
