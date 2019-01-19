@@ -48,7 +48,7 @@ class AuthenticateUserCommand(object):
         return token
 
 
-def create_authenticate_token_command(session=None, logger=None):
+def create_authenticate_token_command(logger=None):
     """AuthenticateTokenCommand factory."""
     logger = logger or logging.getLogger(__name__)
     return AuthenticateTokenCommand(logger=logger)
@@ -67,4 +67,11 @@ class AuthenticateTokenCommand(object):
 
     def __call__(self, token):
         """Authenticate token."""
-        return False
+        try:
+            return_token = jwt.decode(
+                token, config.SECRET, algorithms=['HS256'])
+
+        except jwt.InvalidTokenError:
+            return_token = False
+
+        return return_token
