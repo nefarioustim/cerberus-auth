@@ -18,6 +18,9 @@ def create_authenticate_service(session=None, logger=None):
         authenticate_user_command=command.create_authenticate_user_command(
             session=session,
             logger=logger
+        ),
+        authenticate_token_command=command.create_authenticate_token_command(
+            logger=logger
         )
     )
 
@@ -27,9 +30,10 @@ class AuthenticateService(object):
     An application service that controls all aspects of authentication.
     """
 
-    def __init__(self, authenticate_user_command):
+    def __init__(self, authenticate_user_command, authenticate_token_command):
         """Initialise RegisterService."""
         self.authenticate_user = authenticate_user_command
+        self.authenticate_token = authenticate_token_command
 
     @staticmethod
     def get_password():
