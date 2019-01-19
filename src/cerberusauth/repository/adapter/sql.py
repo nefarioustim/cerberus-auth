@@ -42,6 +42,15 @@ class SQLRepositoryAdapter(RepositoryAdapterInterface):
             .get(aggregate_root_id)
         )
 
+    def get_by(self, cls, key, value):
+        """Get an aggregate root."""
+        return (
+            self.session
+            .query(cls)
+            .filter(getattr(cls, key) == value)
+            .first()
+        )
+
     def delete(self, aggregate_root):
         """Delete an aggregate root."""
         self.session.delete(aggregate_root)

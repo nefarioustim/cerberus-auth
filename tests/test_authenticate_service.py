@@ -3,6 +3,7 @@ Tests for AuthenticateService.
 """
 
 from cerberusauth import authenticate
+from cerberusauth.authenticate import command
 
 
 def test_get_password():
@@ -20,3 +21,4 @@ def test_create_authenticate_service():
 
     assert auth
     assert isinstance(auth, authenticate.AuthenticateService)
+    assert isinstance(auth.authenticate_user, command.AuthenticateUserCommand)

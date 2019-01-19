@@ -37,6 +37,18 @@ class BaseRepository(object):
             self._get(agg_root_id) for agg_root_id in aggregate_root_ids
         ]
 
+    def _get_by(self, key, value):
+        agg_root = self.adapter.get_by(self.agg_root_class, key, value)
+        self.logger.info('Got {} with {} {}'. format(
+            self.agg_root_class.__name__, key, value))
+        return agg_root
+
+    def get_by(self, *agg_root_prop_items):
+        return [
+            self._get_by(*agg_root_prop_item)
+            for agg_root_prop_item in agg_root_prop_items
+        ]
+
     def _bulk_process(self, agg_root, func):
         agg_root = self.get_aggregate_root_object(agg_root)
 

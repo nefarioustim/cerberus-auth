@@ -9,6 +9,7 @@ from cerberusauth.repository.adapter import sql as sqladapter
 class MockSQLModel(Mock):
     """Mock class."""
     id = False
+    email = 'something'
 
 
 def test_sql_adapter_instantiates(storage_session):
@@ -62,6 +63,19 @@ def test_sql_adapter_get(storage_session):
     query.get.assert_called_once()
     # Check passed BinaryExpression using compare method
     assert query.get.call_args[0][0] == 1234
+
+
+def test_sql_adapter_get_by(storage_session):
+    """."""
+    adapter = sqladapter.SQLRepositoryAdapter(storage_session)
+    adapter.get_by(MockSQLModel, 'email', 'something')
+
+    storage_session.query.assert_called_once()
+    storage_session.query.assert_called_with(MockSQLModel)
+    query = storage_session.query()
+    query.filter.assert_called_with(MockSQLModel.email == 'something')
+    query_filter = query.filter()
+    query_filter.first.assert_called_once()
 
 
 def test_sql_adapter_delete(storage_session):

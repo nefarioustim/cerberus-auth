@@ -38,6 +38,14 @@ def test_interface_has_get():
         interface.get(1234)
 
 
+def test_interface_has_get_by():
+    """."""
+    interface = adapter.RepositoryAdapterInterface()
+
+    with pytest.raises(NotImplementedError):
+        interface.get_by('email', 'something')
+
+
 def test_interface_has_delete():
     """."""
     interface = adapter.RepositoryAdapterInterface()
