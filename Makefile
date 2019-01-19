@@ -1,4 +1,4 @@
-.PHONY: all build pipenv-lock pipenv-outdated test e2etest docs apidocs clean-pyc
+.PHONY: all build pipenv-lock test e2etest docs apidocs clean-pyc
 
 all: test
 
@@ -7,9 +7,6 @@ build: clean-pyc
 
 pipenv-lock: clean-pyc
 	docker-compose run --rm --no-deps app pipenv lock
-
-pipenv-outdated: clean-pyc
-	docker-compose run --rm --no-deps app pipenv update --outdated
 
 test: clean-pyc
 	-docker-compose run --rm --no-deps app pipenv run pytest
