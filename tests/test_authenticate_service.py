@@ -20,5 +20,9 @@ def test_create_authenticate_service():
     auth = authenticate.create_authenticate_service()
 
     assert auth
-    assert isinstance(auth, authenticate.AuthenticateService)
-    assert isinstance(auth.authenticate_user, command.AuthenticateUserCommand)
+    assert isinstance(
+        auth, authenticate.AuthenticateService)
+    assert isinstance(
+        auth.authenticate_user, command.AuthenticateUserCommand)
+    assert isinstance(
+        auth.authenticate_token, command.AuthenticateTokenCommand)
