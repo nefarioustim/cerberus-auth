@@ -2,6 +2,8 @@
 Cerberus - Authentication and authorisation microservice.
 """
 
+from nameko.rpc import rpc
+
 from . import authenticate
 from . import authorise
 from . import config
@@ -10,20 +12,16 @@ from . import schema
 from . import storage
 
 
-def cerberus():
-    return CerberusAuth(
-        storage_strategy=config.STORAGE_STRATEGY
-    )
-
-
 class CerberusAuth(object):
     """
     Provides authentication and authorisation as a microservice.
     """
 
-    def __init__(self, storage_strategy):
+    name = "cerberusauth"
+
+    def __init__(self):
         """Initialise an instance."""
-        self.storage_strategy = storage_strategy
+        self.storage_strategy = config.STORAGE_STRATEGY
 
         self._setup_storage()
         self._setup_services()
@@ -46,4 +44,9 @@ class CerberusAuth(object):
 
     def create_schema(self):
         """Create storage schema."""
-        schema.create_schema()
+        schema.create_schema(self.storage_strategy)
+
+    @rpc
+    def register_users(self, *user_dicts):
+        """Register multiple users from @user_dicts."""
+        return self.register.register_users(*user_dicts)

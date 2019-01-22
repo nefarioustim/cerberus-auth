@@ -9,7 +9,7 @@ import cerberusauth.schema
 
 def test_cerberus():
     """."""
-    cerberus = cerberusauth.cerberus()
+    cerberus = cerberusauth.CerberusAuth()
 
     assert cerberus
     assert isinstance(cerberus, cerberusauth.CerberusAuth)
@@ -24,7 +24,7 @@ def test_create_schema(monkeypatch):
     monkeypatch.setattr(
         cerberusauth.schema, "create_schema", create_schema_mock)
 
-    cerberus = cerberusauth.cerberus()
+    cerberus = cerberusauth.CerberusAuth()
     cerberus.create_schema()
 
     create_schema_mock.assert_called_once()

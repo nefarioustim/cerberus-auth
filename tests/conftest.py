@@ -3,7 +3,13 @@ Configuration and fixtures for tests.
 """
 
 from unittest.mock import Mock
+
 import pytest
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+import cerberusauth
+from cerberusauth.storage import sql as sqlstorage
 
 
 USER_DICT = {
@@ -49,3 +55,21 @@ def get_permission():
 def storage_session():
     """Mock fixture for session."""
     return Mock()
+
+
+@pytest.fixture
+def e2e_storage_fixture(monkeypatch):
+    """Storage fixture for all e2e tests."""
+    engine = create_engine('sqlite:///:memory:')
+    Session = sessionmaker(bind=engine)
+
+    monkeypatch.setattr(sqlstorage, "engine", engine)
+    monkeypatch.setattr(sqlstorage, "Session", Session)
+
+
+@pytest.fixture
+def e2e_cerberus_fixture(storage_fixture):
+    """Session fixture for e2e tests."""
+    cerberus = cerberusauth.CerberusAuth()
+    cerberus.create_schema()
+    return cerberus
