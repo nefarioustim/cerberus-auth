@@ -9,10 +9,13 @@ pipenv-lock: clean-pyc
 	docker-compose run --rm --no-deps app pipenv lock
 
 test: clean-pyc
-	-docker-compose run --rm --no-deps app pipenv run pytest
+	-docker-compose run --rm --no-deps app pipenv run pytest -m "not e2etest"
+
+xtest: clean-pyc
+	-docker-compose run --rm --no-deps app pipenv run pytest -m "not e2etest" -x --ff
 
 e2etest: clean-pyc
-	-docker-compose run --rm --no-deps app pipenv run pytest e2etests/
+	-docker-compose run --rm app pipenv run pytest -m e2etest
 
 docs: clean-pyc
 	docker-compose run --rm --no-deps app pipenv run make -C docs html

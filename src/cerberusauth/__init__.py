@@ -2,6 +2,8 @@
 Cerberus - Authentication and authorisation microservice.
 """
 
+import simplejson as json
+
 from . import authenticate
 from . import authorise
 from . import config
@@ -9,11 +11,7 @@ from . import register
 from . import schema
 from . import storage
 
-
-def cerberus():
-    return CerberusAuth(
-        storage_strategy=config.STORAGE_STRATEGY
-    )
+from .models.serial import RegisteredUserSchema
 
 
 class CerberusAuth(object):
@@ -21,9 +19,9 @@ class CerberusAuth(object):
     Provides authentication and authorisation as a microservice.
     """
 
-    def __init__(self, storage_strategy):
+    def __init__(self):
         """Initialise an instance."""
-        self.storage_strategy = storage_strategy
+        self.storage_strategy = config.STORAGE_STRATEGY
 
         self._setup_storage()
         self._setup_services()
@@ -46,4 +44,12 @@ class CerberusAuth(object):
 
     def create_schema(self):
         """Create storage schema."""
-        schema.create_schema()
+        schema.create_schema(self.storage_strategy)
+
+    def register_users(self, users_json):
+        """Register multiple users from @users_json."""
+        user_dicts = json.loads(users_json)
+        users = self.register.register_users(*user_dicts)
+        users = RegisteredUserSchema().dumps(
+            users, many=True, sort_keys=True, indent=2 * ' ')
+        return users.data
