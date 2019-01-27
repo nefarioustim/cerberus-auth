@@ -7,6 +7,7 @@ from unittest.mock import Mock
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from nameko.testing.services import worker_factory
 
 import cerberusauth
 from cerberusauth.storage import sql as sqlstorage
@@ -60,7 +61,7 @@ def storage_session():
 @pytest.fixture
 def e2e_storage_fixture(monkeypatch):
     """Storage fixture for all e2e tests."""
-    engine = create_engine('sqlite:///:memory:')
+    engine = create_engine("sqlite:///:memory:")
     Session = sessionmaker(bind=engine)
 
     monkeypatch.setattr(sqlstorage, "engine", engine)
@@ -68,8 +69,8 @@ def e2e_storage_fixture(monkeypatch):
 
 
 @pytest.fixture
-def e2e_cerberus_fixture(storage_fixture):
+def e2e_cerberus_fixture(e2e_storage_fixture):
     """Session fixture for e2e tests."""
-    cerberus = cerberusauth.CerberusAuth()
+    cerberus = worker_factory(cerberusauth.CerberusAuth)
     cerberus.create_schema()
     return cerberus

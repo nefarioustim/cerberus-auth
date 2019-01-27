@@ -3,6 +3,7 @@ Cerberus - Authentication and authorisation microservice.
 """
 
 from nameko.rpc import rpc
+import simplejson as json
 
 from . import authenticate
 from . import authorise
@@ -47,6 +48,7 @@ class CerberusAuth(object):
         schema.create_schema(self.storage_strategy)
 
     @rpc
-    def register_users(self, *user_dicts):
-        """Register multiple users from @user_dicts."""
+    def register_users(self, users_json):
+        """Register multiple users from @users_json."""
+        user_dicts = json.loads(users_json)
         return self.register.register_users(*user_dicts)
