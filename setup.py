@@ -30,6 +30,7 @@ REQUIRED = [
     'alembic',
     'bcrypt',
     'nameko',
+    'marshmallow',
     'pika',
     'psycopg2-binary',
     'pyjwt',
