@@ -35,6 +35,7 @@ REQUIRED = [
     'pyjwt',
     'python-slugify',
     'pyyaml',
+    'simplejson',
     'sqlalchemy',
     'sqlalchemy-utc',
     'sqlalchemy-utils',
